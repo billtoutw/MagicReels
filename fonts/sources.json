@@ -1,0 +1,16 @@
+{
+  "fonts": [
+    {
+      "file": "SourceHanSansTW-Bold.otf",
+      "sha256": "a586990078d8fe4e97202e38fa3c2e0a61ce54009affdd9e2cfe59351ad3f5c7",
+      "license": "SIL OFL 1.1"
+    },
+    {
+      "file": "SourceHanSerifTC-Bold.otf",
+      "sha256": "5dfc336214dc81d9bfed14c668cdce99b55078bfee60833d50f5445b8fa944b3",
+      "license": "SIL OFL 1.1"
+    }
+  ],
+  "source_sans": "https://github.com/adobe-fonts/source-han-sans",
+  "source_serif": "https://github.com/adobe-fonts/source-han-serif"
+}

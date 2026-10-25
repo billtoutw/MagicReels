@@ -1,0 +1,81 @@
+[
+  {
+    "source_asset_id": "original:magicreels-demo:card-01",
+    "sha256": "eb97f8404924d231c94644355b989ae63e53a1fd811add473e226b56f7823315",
+    "parts": [
+      1,
+      2
+    ],
+    "credit": "概念示意／自行製圖",
+    "source_page": "original"
+  },
+  {
+    "source_asset_id": "original:magicreels-demo:card-02",
+    "sha256": "57758fcf1730e12dc9d1c6247de3808688e0da853489ad8526163f3f3ffc13d7",
+    "parts": [
+      3,
+      4
+    ],
+    "credit": "概念示意／自行製圖",
+    "source_page": "original"
+  },
+  {
+    "source_asset_id": "original:magicreels-demo:card-03",
+    "sha256": "0220b9d09e0cb3112d0d8c2e1f9da60d2cb3e4093ea85e1b7c563b13992785d7",
+    "parts": [
+      5,
+      6
+    ],
+    "credit": "概念示意／自行製圖",
+    "source_page": "original"
+  },
+  {
+    "source_asset_id": "original:magicreels-demo:card-04",
+    "sha256": "9e8ab978fe3d66256ae8c53f9bb6a2f25839a4417b6b94b2a8e00d73b049e728",
+    "parts": [
+      7,
+      8
+    ],
+    "credit": "概念示意／自行製圖",
+    "source_page": "original"
+  },
+  {
+    "source_asset_id": "original:magicreels-demo:card-05",
+    "sha256": "c69a1680438108767932291dd59a1ba4267756c2f235c1c5fe4a3d5ebb1cda63",
+    "parts": [
+      9,
+      10
+    ],
+    "credit": "概念示意／自行製圖",
+    "source_page": "original"
+  },
+  {
+    "source_asset_id": "original:magicreels-demo:card-06",
+    "sha256": "461cf464c0109602a0a76f6cf9dbb77197244b6f99a8cebf8ff2456ba889b590",
+    "parts": [
+      11
+    ],
+    "credit": "概念示意／自行製圖",
+    "source_page": "original"
+  },
+  {
+    "source_asset_id": "original:magicreels-demo:card-07",
+    "sha256": "1dc4263b365b29cd347a74519bb3b7037bbb4936e485a018f82c395de1f065db",
+    "parts": [
+      12,
+      13
+    ],
+    "credit": "概念示意／自行製圖",
+    "source_page": "original"
+  },
+  {
+    "source_asset_id": "original:magicreels-demo:card-08",
+    "sha256": "637d95af4e270572052d423369e2119112a04d2c652930e9f5b26df00dd90d3a",
+    "parts": [
+      14,
+      15
+    ],
+    "credit": "概念示意／自行製圖",
+    "source_page": "original"
+  }
+]

@@ -1,0 +1,155 @@
+{
+  "master": "narration.wav",
+  "delivery": "narration.mp3",
+  "duration": 52.906666666666666,
+  "sample_rate": 44100,
+  "channels": 1,
+  "parts": [
+    {
+      "part": 1,
+      "source": "001.wav",
+      "display": "一篇文章，裝得下許多細節。",
+      "start": 0.0,
+      "end": 2.9024943310657596,
+      "samples": 128000,
+      "pcm_sha256": "313d84db75fffd4506267afbc4bb119b915981f00098dea2b284aa1a422c41f3"
+    },
+    {
+      "part": 2,
+      "source": "002.wav",
+      "display": "六十秒的影片，該先說哪一件事？",
+      "start": 2.9024943310657596,
+      "end": 6.965986394557823,
+      "samples": 179200,
+      "pcm_sha256": "518e37b8bde77e29ca89793b6ce550377ec3c3e3e340a28b4bdcaa8c6ff755bb"
+    },
+    {
+      "part": 3,
+      "source": "003.wav",
+      "display": "先選一個觀眾最在意的問題。",
+      "start": 6.965986394557823,
+      "end": 9.7059410430839,
+      "samples": 120832,
+      "pcm_sha256": "3dfeeb3f3246ce247fd71253bf0cdf8179c94b6bdcdd5504e00a938789681b70"
+    },
+    {
+      "part": 4,
+      "source": "004.wav",
+      "display": "用一句話，寫出影片要給的答案。",
+      "start": 9.7059410430839,
+      "end": 13.990022675736961,
+      "samples": 188928,
+      "pcm_sha256": "d628285bfd5788edef358f0dc6d7a2c79fd3933bda899289b10f513edef2e52b"
+    },
+    {
+      "part": 5,
+      "source": "005.wav",
+      "display": "接著留下兩個能支持答案的重點。",
+      "start": 13.990022675736961,
+      "end": 18.053514739229026,
+      "samples": 179200,
+      "pcm_sha256": "e3524c5d26193c18556bb67b5c3ce5bb88165b0c6a32da43e7a4c242c0795579"
+    },
+    {
+      "part": 6,
+      "source": "006.wav",
+      "display": "把每個重點，改成自然的口語句子。",
+      "start": 18.053514739229026,
+      "end": 21.420408163265307,
+      "samples": 148480,
+      "pcm_sha256": "5c881f8e3b7e92364e58acc71ef79a09f9bfd2fbf530ae72d2a78941dbceaec3"
+    },
+    {
+      "part": 7,
+      "source": "007.wav",
+      "display": "錄好旁白後，先確認字音和停頓。",
+      "start": 21.420408163265307,
+      "end": 25.78575963718821,
+      "samples": 192512,
+      "pcm_sha256": "2b0533d90475929fc8deda16be64148f5fdca6b718f3ae12d35cee9860673833"
+    },
+    {
+      "part": 8,
+      "source": "008.wav",
+      "display": "再依實際聲音，安排畫面和字幕。",
+      "start": 25.78575963718821,
+      "end": 29.512562358276643,
+      "samples": 164352,
+      "pcm_sha256": "45aab956bb253d0e755a9b8d9b2df8ce9cb9d48afd462fee7b0cdd6cad0993ad"
+    },
+    {
+      "part": 9,
+      "source": "009.wav",
+      "display": "每段畫面，都要能說明當下的內容。",
+      "start": 29.512562358276643,
+      "end": 33.3902947845805,
+      "samples": 171008,
+      "pcm_sha256": "b8db9b218a9a0bedd3772f100f1b07142207563610623f2d3a5b51afafeb653e"
+    },
+    {
+      "part": 10,
+      "source": "010.wav",
+      "display": "素材來源，也要跟著保存。",
+      "start": 33.3902947845805,
+      "end": 36.29278911564626,
+      "samples": 128000,
+      "pcm_sha256": "f66778ef8123a6dd50ca57b4a110328a0d583b6650644540040b81b2873fadd2"
+    },
+    {
+      "part": 11,
+      "source": "011.wav",
+      "display": "最後加入配樂，讓人聲保持清楚。",
+      "start": 36.29278911564626,
+      "end": 40.216961451247165,
+      "samples": 173056,
+      "pcm_sha256": "809a6031d00a585a67fbb4dd56743b455042acd26aa7e44da4e125eb2fd8604f"
+    },
+    {
+      "part": 12,
+      "source": "012.wav",
+      "display": "用手機從頭看一次。",
+      "start": 40.216961451247165,
+      "end": 42.620226757369615,
+      "samples": 105984,
+      "pcm_sha256": "2907f26d385e9794ea3846e52e259de4f092a4f677158b6add45034dad191131"
+    },
+    {
+      "part": 13,
+      "source": "013.wav",
+      "display": "確認字幕、畫面和聲音都能跟上。",
+      "start": 42.620226757369615,
+      "end": 46.718548752834465,
+      "samples": 180736,
+      "pcm_sha256": "abdec03a124fe862269fbd64708ad137feffb6e0b6eec7a33b26de04d4a30896"
+    },
+    {
+      "part": 14,
+      "source": "014.wav",
+      "display": "你可以從這個範例開始。",
+      "start": 46.718548752834465,
+      "end": 49.284353741496595,
+      "samples": 113152,
+      "pcm_sha256": "a3d7cc9b72e7fc142567367c316c8b267b0b96e10df4f5f5cda6cc320e5eb365"
+    },
+    {
+      "part": 15,
+      "source": "015.wav",
+      "display": "換成自己的文章，做出第一支短片。",
+      "start": 49.284353741496595,
+      "end": 52.906666666666666,
+      "samples": 159744,
+      "pcm_sha256": "b115b34a8fb97144ed219ca968062bc54f7b802a52b406864a5ac84660ed5211"
+    }
+  ],
+  "master_sha256": "d3db1cbeaee151093589d239ab616e9620b1709379b5a53d04858a7b7b8bb3e8",
+  "delivery_sha256": "99e420c95cabdb2e2582c485720af6bd95f8568ac070bdb4a35ee5643b488036",
+  "full_decode": "pass",
+  "postprocessing": "loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100,apad=whole_len=2333184,atrim=end_sample=2333184",
+  "speed": 1,
+  "human_audition": "pending",
+  "engine": "breezy",
+  "upstream_commit": "d592c9d3e8927a0f53f68616387060dcd32a05ea",
+  "model_revision": "e33b502e0ac21c16b0ee0d00df66ac3fa737393d",
+  "reference_sha256": "ccc4fd149dfa0c6126f178f496193b6c8fee56f3e49af0e67950440a91164624",
+  "source": "Official BreezyVoice example reference"
+}

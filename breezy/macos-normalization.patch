@@ -1,0 +1,22 @@
+diff --git a/single_inference.py b/single_inference.py
+index 7e99a2d..1c539cc 100755
+--- a/single_inference.py
++++ b/single_inference.py
+@@ -48,7 +48,7 @@ class CustomCosyVoiceFrontEnd(CosyVoiceFrontEnd):
+                     text = self.frd.get_frd_extra_info(text, 'input')
+                 else:
+                     text = self.zh_tn_model.normalize(text)
+-                if not text_is_terminated and not is_last:
++                if not text_is_terminated and not is_last and (self.use_ttsfrd or text.endswith("。")):
+                     text = text[:-1]
+                 #print(text)
+                 text = text.replace("\n", "")
+@@ -105,6 +105,8 @@ class CustomCosyVoiceFrontEnd(CosyVoiceFrontEnd):
+         #         "en", token_max_n=80, token_min_n=60, merge_len=20, comma_split=False
+         #     )]
+ 
++        if not self.use_ttsfrd:
++            text = opencc.OpenCC("s2t").convert(text)
+         if split is False:
+             return text
+         return texts

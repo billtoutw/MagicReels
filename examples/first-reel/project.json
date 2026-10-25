@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "title": "一篇長文，如何變成短影音？",
+  "audio_map": "voice/audio-map.json",
+  "approval": "approval.json",
+  "captions": [
+    "一篇文章，\n裝得下許多細節。",
+    "六十秒的影片，\n該先說哪一件事？",
+    "先選一個觀眾\n最在意的問題。",
+    "用一句話，寫出\n影片要給的答案。",
+    "接著留下兩個\n能支持答案的重點。",
+    "把每個重點，\n改成自然的口語句子。",
+    "錄好旁白後，\n先確認字音和停頓。",
+    "再依實際聲音，\n安排畫面和字幕。",
+    "每段畫面，都要能\n說明當下的內容。",
+    "素材來源，\n也要跟著保存。",
+    "最後加入配樂，\n讓人聲保持清楚。",
+    "用手機\n從頭看一次。",
+    "確認字幕、畫面\n和聲音都能跟上。",
+    "你可以\n從這個範例開始。",
+    "換成自己的文章，\n做出第一支短片。"
+  ],
+  "hook": {
+    "lead": "一篇文章，\n裝得下許多細節。",
+    "question": "六十秒的影片，\n該先說哪一件事？",
+    "end_part": 2
+  },
+  "scenes": [
+    {
+      "source_asset_id": "original:magicreels-demo:card-01",
+      "kind": "card",
+      "parts": [
+        1,
+        2
+      ],
+      "title": "從長文開始",
+      "body": "一篇文章\n一個核心問題",
+      "credit": "概念示意／自行製圖"
+    },
+    {
+      "source_asset_id": "original:magicreels-demo:card-02",
+      "kind": "card",
+      "parts": [
+        3,
+        4
+      ],
+      "title": "先選一個問題",
+      "body": "觀眾最在意什麼？\n用一句話寫出答案。",
+      "credit": "概念示意／自行製圖"
+    },
+    {
+      "source_asset_id": "original:magicreels-demo:card-03",
+      "kind": "card",
+      "parts": [
+        5,
+        6
+      ],
+      "title": "保留兩個重點",
+      "body": "重點一　發生什麼事\n重點二　帶來什麼影響",
+      "credit": "概念示意／自行製圖"
+    },
+    {
+      "source_asset_id": "original:magicreels-demo:card-04",
+      "kind": "card",
+      "parts": [
+        7,
+        8
+      ],
+      "title": "讓聲音帶時間",
+      "body": "配音 → 試聽 → 對時\n依實際聲音安排畫面",
+      "credit": "概念示意／自行製圖"
+    },
+    {
+      "source_asset_id": "original:magicreels-demo:card-05",
+      "kind": "card",
+      "parts": [
+        9,
+        10
+      ],
+      "title": "每一鏡都有依據",
+      "body": "圖卡說明當下內容\n來源與素材一起保存",
+      "credit": "概念示意／自行製圖"
+    },
+    {
+      "source_asset_id": "original:magicreels-demo:card-06",
+      "kind": "card",
+      "parts": [
+        11
+      ],
+      "title": "配樂襯托人聲",
+      "body": "語音保持清楚\n音樂緩緩進場",
+      "credit": "概念示意／自行製圖"
+    },
+    {
+      "source_asset_id": "original:magicreels-demo:card-07",
+      "kind": "card",
+      "parts": [
+        12,
+        13
+      ],
+      "title": "放到手機檢查",
+      "body": "文字有沒有太擠？\n節奏是否跟得上？",
+      "credit": "概念示意／自行製圖"
+    },
+    {
+      "source_asset_id": "original:magicreels-demo:card-08",
+      "kind": "card",
+      "parts": [
+        14,
+        15
+      ],
+      "title": "做出你的第一支",
+      "body": "替換文章與聲音\n開始你的製作流程",
+      "credit": "概念示意／自行製圖"
+    }
+  ]
+}

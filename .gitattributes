@@ -1,0 +1,2 @@
+# Preserve the patch bytes for the CRLF upstream source.
+breezy/macos-normalization.patch -text -whitespace
