@@ -4,9 +4,9 @@
 
 MagicReels 是一套可重現、保留人工審核的製作工具包。從文章改寫提示詞開始，以 BreezyVoice 配音，編排素材與圖卡，輸出 1080 × 1920 影片及繁中字幕，再匯入配樂完成混音。
 
-v0.1.0 · Python 3.11+ · FFmpeg / libass · 本機 CLI
+v0.2.0 · Python 3.11+ · FFmpeg / libass · 本機 CLI
 
-[觀看完整示範（53 秒 MP4）](https://github.com/billtoutw/MagicReels/releases/download/v0.1.0/MagicReels-demo.mp4) · [下載 v0.1.0](https://github.com/billtoutw/MagicReels/releases/tag/v0.1.0) · [查看示範輸入](examples/first-reel)
+[觀看完整示範（53 秒 MP4）](https://github.com/billtoutw/MagicReels/releases/download/v0.2.0/MagicReels-demo-v0.2.0.mp4) · [下載 v0.2.0](https://github.com/billtoutw/MagicReels/releases/tag/v0.2.0) · [查看示範輸入](examples/first-reel)
 
 ![MagicReels 示範畫面](examples/first-reel/preview.jpg)
 
@@ -20,13 +20,15 @@ cd MagicReels
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
+export PEXELS_API_KEY='your-key'
+python examples/first-reel/fetch_materials.py
 magicreels validate examples/first-reel/project.json
 magicreels render examples/first-reel/project.json --out work/demo-film-v1
 magicreels mix work/demo-film-v1/film.mp4 \
   --music examples/first-reel/music.wav --out work/demo-mix-v1
 ```
 
-示範附原創文章、定稿、配音、分鏡、圖卡資料與配樂，可直接完成影片。重跑時請換新的輸出目錄；程式會保留既有版本。示範重建使用已生成的音檔，無須下載配音模型或設定 API 金鑰。
+示範採 6 段 Pexels 動態影片與 2 張概念圖卡，保留已確認的旁白與配樂。觀看成品可直接開啟上方 MP4；重建請設定自己的免費 Pexels API key，執行下載腳本，再驗證與合成。配音已附於範例，無須另外下載語音模型。重跑時請換新的輸出目錄。
 
 在 macOS 可用 `brew install ffmpeg`；Ubuntu 可用 `sudo apt-get install ffmpeg`。請以 `ffmpeg -filters` 確認有 `ass` 濾鏡。
 
@@ -51,7 +53,9 @@ magicreels search 'person reading an article' --out work/search-v1
 magicreels fetch 123456 --out work/asset-v1  # 將 123456 換成搜尋結果的 video_id
 ```
 
-搜尋結果保存作者、來源頁與素材 ID。下載後附三個取樣畫格；請觀看實際取段後設定 `reviewed: true`。外部素材的原始檔與使用權由使用者管理。
+以 Pexels 動態影片優先，直式素材置中裁切為 1080×1920 滿版；缺少適合畫面或需要說明概念時再用圖卡。搜尋結果保存作者、來源頁與素材 ID，下載後附三張取樣圖。請觀看實際取段後設定 `reviewed: true`。
+
+完整教學見 [Pexels 素材取得與使用](docs/pexels.md)，包括金鑰、搜尋、下載、分鏡及授權範圍。Pexels 素材依其授權使用，原始片段保存在 Git 忽略目錄；來源由 [Pexels](https://www.pexels.com) 提供。
 
 ### 配音與字幕
 
@@ -61,17 +65,17 @@ BreezyVoice 採獨立 Python 3.10 環境。參考聲音由使用者提供，正�
 
 - 9:16、1080 × 1920、30 fps、H.264 / AAC。
 - 思源黑體繁中粗體黃色字幕，最多兩行；思源宋體繁中粗體的白色引題與珊瑚紅問句。
-- 右上角來源、暗色素材背景，以及約 390 px 寬的檢查圖。
+- 右上角來源、暗色素材背景、動態影片滿版裁切，以及約 390 px 寬的檢查圖。
 - 來源 ID 與檔案雜湊防止同一素材再次插入。變形或重新編碼的素材仍須靠來源 ID 與人工核對。
 - 音樂以緩慢音量曲線調整，保存人聲成分與時間，混音前後比對解碼畫格。
 
-## v0.1 範圍與現況
+## v0.2 範圍與現況
 
 本版支援單支 1–180 秒影片、一套固定版型、本機 BreezyVoice、Pexels 搜尋、原創圖卡、照片／影片、逐段字幕與匯入配樂。CTA 可作為時間軸尾段，使用獨立素材。
 
 服務帳號、雲端部署、批次發布、社群排程與線上編輯器留待需求驗證。影片事實、聲音聽感、素材身分與最終觀感由製作者確認。
 
-測試範圍、硬體與已知限制見 [驗證紀錄](docs/verification.md)。BreezyVoice 的安裝較重，CPU 生成可能明顯慢於音檔長度；先完成短段試行再投入長片。
+測試範圍、硬體與已知限制見 [v0.2 驗證紀錄](docs/verification-v0.2.md)。BreezyVoice 的安裝較重，CPU 生成可能明顯慢於音檔長度；先完成短段試行再投入長片。
 
 ## 來源與授權
 

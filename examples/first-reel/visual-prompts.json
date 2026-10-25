@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "tool": "built-in image_gen",
+  "purpose": "Two supporting concept diagrams; Pexels motion footage is the primary visual source. Native ASS typography preserves the confirmed Chinese copy.",
+  "assets": [
+    {
+      "scene": 3,
+      "file": "assets/diagram-03.png",
+      "prompt": "Use case: infographic-diagram. Create ONE original portrait 9:16 editorial concept illustration for a premium Traditional Chinese educational reel. Visual language: tactile cut-paper and fine 3D paper craft, clean strong silhouettes, cream paper, restrained coral and muted cyan accents on a deep navy background, subtle realistic shadows, elegantly composed and easy to recognize on a phone. Single coherent illustration, no montage or contact sheet. All meaningful graphic objects clustered inside the middle region, roughly 40–60% of total height, with wide clean margins. Upper 0–38% and bottom 65–100% are quiet solid deep navy, reserved for exact title and subtitle typography rendered later. Absolutely no letters, words, numbers, fake writing, watermark or logo. Blank paper may contain simple abstract line marks only. Diagram meaning: retain two supporting points from one long article. One central article sheet branches with two clean coral arrows into exactly two large cream index cards side by side. Left card has a minimal clock/calendar event icon; right card has expanding cyan impact rings. These cards have NO writing and NO headings. Strong symmetric two-branch structure, not a bar chart, two distinct ideas visibly connected to one story.",
+      "credit": "概念示意／AI 製圖",
+      "sha256": "a04a2493daa773a8a5a27bfeb1279bde3b93a1f5b6b4f60bf59ec0e495dea899"
+    },
+    {
+      "scene": 8,
+      "file": "assets/diagram-08.png",
+      "prompt": "Use case: infographic-diagram. Create ONE original portrait 9:16 editorial concept illustration for a premium Traditional Chinese educational reel. Visual language: tactile cut-paper and fine 3D paper craft, clean strong silhouettes, cream paper, restrained coral and muted cyan accents on a deep navy background, subtle realistic shadows, elegantly composed and easy to recognize on a phone. Single coherent illustration, no montage or contact sheet. All meaningful graphic objects clustered inside the middle region, roughly 40–60% of total height, with wide clean margins. Upper 0–38% and bottom 65–100% are quiet solid deep navy, reserved for exact title and subtitle typography rendered later. Absolutely no letters, words, numbers, fake writing, watermark or logo. Blank paper may contain simple abstract line marks only. Diagram meaning: turn your own article into a finished vertical short video. A large cream article page with abstract lines on the left transforms along a single sweeping coral arrow into a tall cyan-and-cream vertical video card on the right, with one coral triangular play symbol. A small pencil and a spark of light communicate making your first piece. Quiet, optimistic, tangible editorial paper-craft, sophisticated rather than cartoonish. No brand wordmarks or typography.",
+      "credit": "概念示意／AI 製圖",
+      "sha256": "c3e0afe43ecf79c346044aa19d1a0f1f16f5dbe77c649d1c6abed912b93f1629"
+    }
+  ]
+}

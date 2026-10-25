@@ -1,4 +1,4 @@
-"""Command-line workflow for MagicReels v0.1."""
+"""Command-line workflow for MagicReels v0.2."""
 import argparse
 from pathlib import Path
 from datetime import datetime, timezone
@@ -8,7 +8,7 @@ from .pipeline import load, save, digest, checked_path, validate, render, mix, v
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--version', action='version', version='MagicReels 0.1.0')
+    parser.add_argument('--version', action='version', version='MagicReels 0.2.0')
     commands = parser.add_subparsers(dest='command', required=True)
     for name in ('validate', 'render'):
         p = commands.add_parser(name)

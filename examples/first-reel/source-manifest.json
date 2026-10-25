@@ -1,81 +1,81 @@
 [
   {
-    "source_asset_id": "original:magicreels-demo:card-01",
-    "sha256": "eb97f8404924d231c94644355b989ae63e53a1fd811add473e226b56f7823315",
+    "source_asset_id": "pexels:video:8873342",
+    "sha256": "3849122229c74c39988209b5ba297089604a9f6fb5a46d64c9a19771edaf83fe",
     "parts": [
       1,
       2
     ],
-    "credit": "概念示意／自行製圖",
-    "source_page": "original"
+    "credit": "示意畫面／Pexels",
+    "source_page": "https://www.pexels.com/video/person-writing-on-notebook-8873342/"
   },
   {
-    "source_asset_id": "original:magicreels-demo:card-02",
-    "sha256": "57758fcf1730e12dc9d1c6247de3808688e0da853489ad8526163f3f3ffc13d7",
+    "source_asset_id": "pexels:video:8255260",
+    "sha256": "fa236d169e29bb8c9c7c93db5ab3c79cdf5b827c3437303735edf0ff69b12683",
     "parts": [
       3,
       4
     ],
-    "credit": "概念示意／自行製圖",
-    "source_page": "original"
+    "credit": "示意畫面／Pexels",
+    "source_page": "https://www.pexels.com/video/a-person-using-a-highlighter-8255260/"
   },
   {
-    "source_asset_id": "original:magicreels-demo:card-03",
-    "sha256": "0220b9d09e0cb3112d0d8c2e1f9da60d2cb3e4093ea85e1b7c563b13992785d7",
+    "source_asset_id": "generated:magicreels:v020:diagram-03",
+    "sha256": "a04a2493daa773a8a5a27bfeb1279bde3b93a1f5b6b4f60bf59ec0e495dea899",
     "parts": [
       5,
       6
     ],
-    "credit": "概念示意／自行製圖",
-    "source_page": "original"
+    "credit": "概念示意／AI 製圖",
+    "source_page": "generated:MagicReels:diagram-03"
   },
   {
-    "source_asset_id": "original:magicreels-demo:card-04",
-    "sha256": "9e8ab978fe3d66256ae8c53f9bb6a2f25839a4417b6b94b2a8e00d73b049e728",
+    "source_asset_id": "pexels:video:6948559",
+    "sha256": "99ec0b73cf22177dd23ae6db6303a36e2e6d3712fbb5f7a9c40fc34d2bb1a91d",
     "parts": [
       7,
       8
     ],
-    "credit": "概念示意／自行製圖",
-    "source_page": "original"
+    "credit": "示意畫面／Pexels",
+    "source_page": "https://www.pexels.com/video/a-woman-using-a-laptop-and-a-microphone-6948559/"
   },
   {
-    "source_asset_id": "original:magicreels-demo:card-05",
-    "sha256": "c69a1680438108767932291dd59a1ba4267756c2f235c1c5fe4a3d5ebb1cda63",
+    "source_asset_id": "pexels:video:8100345",
+    "sha256": "6c2a3e290a84f2b16456d9581cb14473862a6ed3e838c6f4907f487181ca78a1",
     "parts": [
       9,
       10
     ],
-    "credit": "概念示意／自行製圖",
-    "source_page": "original"
+    "credit": "示意畫面／Pexels",
+    "source_page": "https://www.pexels.com/video/female-editor-posing-on-camera-8100345/"
   },
   {
-    "source_asset_id": "original:magicreels-demo:card-06",
-    "sha256": "461cf464c0109602a0a76f6cf9dbb77197244b6f99a8cebf8ff2456ba889b590",
+    "source_asset_id": "pexels:video:8134920",
+    "sha256": "75759e1e67e0275c584a548f93168c4ecb6ca756f1013c24e2299e5a8d1dfd46",
     "parts": [
       11
     ],
-    "credit": "概念示意／自行製圖",
-    "source_page": "original"
+    "credit": "示意畫面／Pexels",
+    "source_page": "https://www.pexels.com/video/a-person-working-with-an-audio-mixing-console-8134920/"
   },
   {
-    "source_asset_id": "original:magicreels-demo:card-07",
-    "sha256": "1dc4263b365b29cd347a74519bb3b7037bbb4936e485a018f82c395de1f065db",
+    "source_asset_id": "pexels:video:7610992",
+    "sha256": "f33a08c451a486b53d96f6672161af31381f88e8dfa6f50d2ab8b618b03e4299",
     "parts": [
       12,
       13
     ],
-    "credit": "概念示意／自行製圖",
-    "source_page": "original"
+    "credit": "示意畫面／Pexels",
+    "source_page": "https://www.pexels.com/video/flat-lay-photography-7610992/"
   },
   {
-    "source_asset_id": "original:magicreels-demo:card-08",
-    "sha256": "637d95af4e270572052d423369e2119112a04d2c652930e9f5b26df00dd90d3a",
+    "source_asset_id": "generated:magicreels:v020:diagram-08",
+    "sha256": "c3e0afe43ecf79c346044aa19d1a0f1f16f5dbe77c649d1c6abed912b93f1629",
     "parts": [
       14,
       15
     ],
-    "credit": "概念示意／自行製圖",
-    "source_page": "original"
+    "credit": "概念示意／AI 製圖",
+    "source_page": "generated:MagicReels:diagram-08"
   }
 ]

@@ -86,7 +86,7 @@ def validate(plan_file, fonts, require_approval=True):
         raise ValueError('旁白雜湊與音訊清單不同，請重新核對版本。')
     duration = float(probe(audio)['format']['duration'])
     if not math.isfinite(duration) or not 1 <= duration <= 180:
-        raise ValueError('v0.1 支援 1–180 秒影片。')
+        raise ValueError('v0.2 支援 1–180 秒影片。')
     if not math.isfinite(float(amap['duration'])) or abs(float(amap['duration']) - duration) > .03:
         raise ValueError('音訊清單長度與實際音檔不同。')
     if require_approval:
@@ -127,11 +127,13 @@ def validate(plan_file, fonts, require_approval=True):
             fit_text(scene['title'], font(fonts, serif=True, size=96))
             fit_text(scene['body'], font(fonts, size=58), 860, 4)
             key = hashlib.sha256((scene['title'] + '\n' + scene['body']).encode()).hexdigest()
-        elif kind in ('image', 'video'):
+        elif kind in ('image', 'video', 'diagram'):
             if scene.get('reviewed') is not True or not scene.get('source_page'):
                 raise ValueError('外部素材須保存來源並完成畫面核對。')
             asset = checked_path(root, scene['path'])
             key = digest(asset)
+            if kind == 'diagram':
+                fit_text(scene['body'], font(fonts, size=58), 860, 2)
             if kind == 'video':
                 length = float(probe(asset)['format']['duration'])
                 start = float(scene.get('source_in', 0))
@@ -143,7 +145,7 @@ def validate(plan_file, fonts, require_approval=True):
                 if start + needed > length - 1 / FPS:
                     raise ValueError('來源影片不足以涵蓋分鏡，請補找素材。')
         else:
-            raise ValueError('素材類型須為 card、image 或 video。')
+            raise ValueError('素材類型須為 card、image、diagram 或 video。')
         if key in hashes:
             raise ValueError('偵測到相同素材內容，請使用其他素材。')
         hashes.add(key)
@@ -200,6 +202,8 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         event(a, b, scene['credit'], r'\an9\pos(995,115)\fs34\1c&HDDDDDD&\bord1')
         if a >= end and scene.get('title'):
             event(a, b, scene['title'], r'\fnSource Han Serif TC\fs96\pos(540,578)\1c&H7077EF&\fad(120,0)')
+        if scene['kind'] == 'diagram':
+            event(a, b, scene['body'], r'\fs58\pos(540,1190)\1c&HFFFFFF&')
     (out / 'captions.ass').write_text(header + '\n'.join(events) + '\n', encoding='utf-8')
     (out / 'captions.srt').write_text('\n\n'.join(srt) + '\n', encoding='utf-8')
 
@@ -229,6 +233,9 @@ def render(plan_file, fonts, output):
     (out / 'fonts').mkdir()
     for name in ('SourceHanSansTW-Bold.otf', 'SourceHanSerifTC-Bold.otf'):
         shutil.copy2(fonts / name, out / 'fonts' / name)
+    mask = np.zeros((HEIGHT, WIDTH, 4), dtype=np.uint8)
+    mask[:, :, 3] = (125 + 34 * np.clip((np.arange(HEIGHT) - 1050) / (HEIGHT - 1050), 0, 1))[:, None].astype(np.uint8)
+    Image.fromarray(mask).save(out / 'dark-overlay.png')
     subtitles(plan, amap, out)
     shots = []
     for i, scene in enumerate(plan['scenes'], 1):
@@ -248,10 +255,20 @@ def render(plan_file, fonts, output):
         args += (['-ss', str(scene.get('source_in', 0))] if kind == 'video' else ['-loop', '1', '-framerate', str(FPS)])
         args += ['-i', str(source)]
         vf = 'scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=0x111d2b,setsar=1,fps=30'
-        if kind != 'card':
+        if kind == 'video':
+            vf = 'scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fps=30'
+        elif kind == 'diagram':
+            vf = 'scale=940:900:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:450:color=0x0C2643,setsar=1,fps=30'
+        if kind == 'image':
             vf += ',drawbox=color=black@0.45:t=fill'
+        filters = ['-vf', vf]
+        if kind == 'video':
+            # Alpha compositing preserves source color and darkens the subtitle zone.
+            args += ['-loop', '1', '-i', str(out / 'dark-overlay.png')]
+            filters = ['-filter_complex_threads', '2', '-filter_complex',
+                       f'[0:v]{vf}[base];[base][1:v]overlay=0:0:shortest=1[v]', '-map', '[v]']
         name = f'shot-{i:03}.mp4'
-        run(args + ['-vf', vf, '-frames:v', str(b - a), '-an', '-c:v', 'libx264',
+        run(args + filters + ['-frames:v', str(b - a), '-an', '-c:v', 'libx264',
                     '-crf', '20', '-preset', 'fast', '-threads', '3', '-pix_fmt', 'yuv420p', str(out / name)])
         shots.append(name)
         print(f'分鏡 {i}/{len(plan["scenes"])}', flush=True)
@@ -262,7 +279,7 @@ def render(plan_file, fonts, output):
          '-c:v', 'libx264', '-crf', '20', '-preset', 'fast', '-threads', '4', '-pix_fmt', 'yuv420p',
          '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', 'film.mp4'], cwd=out)
     save(out / 'source-manifest.json', sources)
-    save(out / 'manifest.json', {'version': '0.1.0', 'title': plan['title'], 'video': 'film.mp4',
+    save(out / 'manifest.json', {'version': '0.2.0', 'title': plan['title'], 'video': 'film.mp4',
          'audio_sha256': digest(audio), 'source_count': len(sources), 'duplicate_sources': [],
          'plan_sha256': digest(plan_file), 'human_visual_review': 'pending'})
     verify(out / 'film.mp4', out / 'verification.json')
@@ -369,7 +386,7 @@ def mix(video, music, output):
     video, music = Path(video).resolve(), Path(music).resolve()
     duration = float(probe(video)['format']['duration'])
     if not math.isfinite(duration) or not 1 <= duration <= 180:
-        raise ValueError('v0.1 支援 1–180 秒影片。')
+        raise ValueError('v0.2 支援 1–180 秒影片。')
     if next(s for s in probe(video)['streams'] if s['codec_type'] == 'video')['codec_name'] != 'h264':
         raise ValueError('混音輸入須為 H.264 MP4。')
     voice, score = decode(video), decode(music)

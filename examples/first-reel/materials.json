@@ -1,0 +1,122 @@
+{
+  "version": "0.2.0",
+  "provider": "Pexels",
+  "provider_url": "https://www.pexels.com",
+  "license_checked": "2026-10-25",
+  "download_policy": "Original stock clips stay in a gitignored local directory; download through Pexels with your own API key.",
+  "videos": [
+    {
+      "scene": 1,
+      "video_id": 8873342,
+      "creator": "Mikhail Nilov",
+      "source_page": "https://www.pexels.com/video/person-writing-on-notebook-8873342/",
+      "license_page": "https://www.pexels.com/license/",
+      "sha256": "3849122229c74c39988209b5ba297089604a9f6fb5a46d64c9a19771edaf83fe",
+      "rendition": {
+        "id": 10984995,
+        "width": 1080,
+        "height": 1920
+      },
+      "source_in": 0.5,
+      "parts": [
+        1,
+        2
+      ],
+      "query": "writing notebook desk"
+    },
+    {
+      "scene": 2,
+      "video_id": 8255260,
+      "creator": "ArtHouse Studio",
+      "source_page": "https://www.pexels.com/video/a-person-using-a-highlighter-8255260/",
+      "license_page": "https://www.pexels.com/license/",
+      "sha256": "fa236d169e29bb8c9c7c93db5ab3c79cdf5b827c3437303735edf0ff69b12683",
+      "rendition": {
+        "id": 10757649,
+        "width": 720,
+        "height": 1366
+      },
+      "source_in": 0.5,
+      "parts": [
+        3,
+        4
+      ],
+      "query": "highlighting notes"
+    },
+    {
+      "scene": 4,
+      "video_id": 6948559,
+      "creator": "George Milton",
+      "source_page": "https://www.pexels.com/video/a-woman-using-a-laptop-and-a-microphone-6948559/",
+      "license_page": "https://www.pexels.com/license/",
+      "sha256": "99ec0b73cf22177dd23ae6db6303a36e2e6d3712fbb5f7a9c40fc34d2bb1a91d",
+      "rendition": {
+        "id": 10239471,
+        "width": 1080,
+        "height": 1920
+      },
+      "source_in": 0.5,
+      "parts": [
+        7,
+        8
+      ],
+      "query": "podcast microphone recording"
+    },
+    {
+      "scene": 5,
+      "video_id": 8100345,
+      "creator": "Ron Lach",
+      "source_page": "https://www.pexels.com/video/female-editor-posing-on-camera-8100345/",
+      "license_page": "https://www.pexels.com/license/",
+      "sha256": "6c2a3e290a84f2b16456d9581cb14473862a6ed3e838c6f4907f487181ca78a1",
+      "rendition": {
+        "id": 10695812,
+        "width": 720,
+        "height": 1366
+      },
+      "source_in": 0.5,
+      "parts": [
+        9,
+        10
+      ],
+      "query": "video editing computer"
+    },
+    {
+      "scene": 6,
+      "video_id": 8134920,
+      "creator": "ANTONI SHKRABA production",
+      "source_page": "https://www.pexels.com/video/a-person-working-with-an-audio-mixing-console-8134920/",
+      "license_page": "https://www.pexels.com/license/",
+      "sha256": "75759e1e67e0275c584a548f93168c4ecb6ca756f1013c24e2299e5a8d1dfd46",
+      "rendition": {
+        "id": 10713091,
+        "width": 1080,
+        "height": 1920
+      },
+      "source_in": 0.5,
+      "parts": [
+        11
+      ],
+      "query": "audio mixing studio"
+    },
+    {
+      "scene": 7,
+      "video_id": 7610992,
+      "creator": "Leeloo The First",
+      "source_page": "https://www.pexels.com/video/flat-lay-photography-7610992/",
+      "license_page": "https://www.pexels.com/license/",
+      "sha256": "f33a08c451a486b53d96f6672161af31381f88e8dfa6f50d2ab8b618b03e4299",
+      "rendition": {
+        "id": 10502561,
+        "width": 1080,
+        "height": 1920
+      },
+      "source_in": 0.5,
+      "parts": [
+        12,
+        13
+      ],
+      "query": "smartphone video editing"
+    }
+  ]
+}

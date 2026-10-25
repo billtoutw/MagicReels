@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 — 2026-10-25
+
+- Replace the text-card demo with six unique Pexels motion shots and two supporting concept diagrams.
+- Fill the vertical canvas with video footage and retain exact native Traditional Chinese typography.
+- Preserve the approved narration and music, with an encoded-audio hash check on the visual revision.
+- Add Pexels search/download/import and license guidance, source manifests and a reproducible material download script.
+- Use current Pexels `/v1/videos/` endpoints and prefer portrait candidates.
+
 ## 0.1.0 — 2026-10-25
 
 - Initial Traditional Chinese article-to-reel toolkit.

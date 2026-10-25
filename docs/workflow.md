@@ -26,7 +26,7 @@ python -m pip install -e '.[align]'
 magicreels transcribe work/my-reel/voice/narration.wav --out work/my-reel/asr-v1
 ```
 
-首次會下載 Whisper small 模型。結果供試聽與時間校正使用；字幕沿用正常稿。v0.1 預設每個 TTS 短句對應一筆字幕，以實際分段邊界對時。整段真人錄音可先依句分割，再使用 `magicreels.tts.assemble` 建立相同格式，或由編輯建立並核對時間表。
+首次會下載 Whisper small 模型。結果供試聽與時間校正使用；字幕沿用正常稿。v0.2 預設每個 TTS 短句對應一筆字幕，以實際分段邊界對時。整段真人錄音可先依句分割，再使用 `magicreels.tts.assemble` 建立相同格式，或由編輯建立並核對時間表。
 
 ## 3. 編排畫面與字幕
 
@@ -57,7 +57,7 @@ magicreels transcribe work/my-reel/voice/narration.wav --out work/my-reel/asr-v1
 }
 ```
 
-照片或影片：
+動態影片優先；照片或影片格式：
 
 ```json
 {
@@ -73,7 +73,9 @@ magicreels transcribe work/my-reel/voice/narration.wav --out work/my-reel/asr-v1
 }
 ```
 
-以上 ID 與網址是格式占位，須換成實際來源。照片使用 `kind: "image"`，省略 `source_in`。外部畫面採完整比例置中與暗色背景，避免裁掉關鍵資訊。
+以上 ID 與網址是格式占位，須換成實際來源。照片使用 `kind: "image"`，省略 `source_in`。動態影片置中裁切為滿版，優先選直式、主體居中的來源並核對裁切。照片保留完整比例置中。
+
+圖解可使用 `kind: "diagram"`、`path` 與原創或生成素材來源，搭配 `body` 的兩行正常文字。圖解保留原始暗底亮度，正文由 ASS 精確排版。Pexels 詳細操作與使用條件見 [素材教學](pexels.md)。
 
 素材只使用一次：相同原始素材即使改名、裁切或重新編碼，也保留相同 `source_asset_id`。同一素材可連續涵蓋多句；離場後再次出現會被拒絕。程式另外比較檔案雜湊，但變形素材的來源身分仍需製作者核對。
 

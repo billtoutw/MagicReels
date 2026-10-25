@@ -27,91 +27,121 @@
   },
   "scenes": [
     {
-      "source_asset_id": "original:magicreels-demo:card-01",
-      "kind": "card",
+      "source_asset_id": "pexels:video:8873342",
+      "kind": "video",
       "parts": [
         1,
         2
       ],
       "title": "從長文開始",
       "body": "一篇文章\n一個核心問題",
-      "credit": "概念示意／自行製圖"
+      "credit": "示意畫面／Pexels",
+      "path": "assets/pexels/8873342/video.mp4",
+      "source_in": 0.5,
+      "source_page": "https://www.pexels.com/video/person-writing-on-notebook-8873342/",
+      "reviewed": true
     },
     {
-      "source_asset_id": "original:magicreels-demo:card-02",
-      "kind": "card",
+      "source_asset_id": "pexels:video:8255260",
+      "kind": "video",
       "parts": [
         3,
         4
       ],
       "title": "先選一個問題",
       "body": "觀眾最在意什麼？\n用一句話寫出答案。",
-      "credit": "概念示意／自行製圖"
+      "credit": "示意畫面／Pexels",
+      "path": "assets/pexels/8255260/video.mp4",
+      "source_in": 0.5,
+      "source_page": "https://www.pexels.com/video/a-person-using-a-highlighter-8255260/",
+      "reviewed": true
     },
     {
-      "source_asset_id": "original:magicreels-demo:card-03",
-      "kind": "card",
+      "source_asset_id": "generated:magicreels:v020:diagram-03",
+      "kind": "diagram",
       "parts": [
         5,
         6
       ],
       "title": "保留兩個重點",
       "body": "重點一　發生什麼事\n重點二　帶來什麼影響",
-      "credit": "概念示意／自行製圖"
+      "credit": "概念示意／AI 製圖",
+      "path": "assets/diagram-03.png",
+      "source_page": "generated:MagicReels:diagram-03",
+      "reviewed": true
     },
     {
-      "source_asset_id": "original:magicreels-demo:card-04",
-      "kind": "card",
+      "source_asset_id": "pexels:video:6948559",
+      "kind": "video",
       "parts": [
         7,
         8
       ],
       "title": "讓聲音帶時間",
       "body": "配音 → 試聽 → 對時\n依實際聲音安排畫面",
-      "credit": "概念示意／自行製圖"
+      "credit": "示意畫面／Pexels",
+      "path": "assets/pexels/6948559/video.mp4",
+      "source_in": 0.5,
+      "source_page": "https://www.pexels.com/video/a-woman-using-a-laptop-and-a-microphone-6948559/",
+      "reviewed": true
     },
     {
-      "source_asset_id": "original:magicreels-demo:card-05",
-      "kind": "card",
+      "source_asset_id": "pexels:video:8100345",
+      "kind": "video",
       "parts": [
         9,
         10
       ],
       "title": "每一鏡都有依據",
       "body": "圖卡說明當下內容\n來源與素材一起保存",
-      "credit": "概念示意／自行製圖"
+      "credit": "示意畫面／Pexels",
+      "path": "assets/pexels/8100345/video.mp4",
+      "source_in": 0.5,
+      "source_page": "https://www.pexels.com/video/female-editor-posing-on-camera-8100345/",
+      "reviewed": true
     },
     {
-      "source_asset_id": "original:magicreels-demo:card-06",
-      "kind": "card",
+      "source_asset_id": "pexels:video:8134920",
+      "kind": "video",
       "parts": [
         11
       ],
       "title": "配樂襯托人聲",
       "body": "語音保持清楚\n音樂緩緩進場",
-      "credit": "概念示意／自行製圖"
+      "credit": "示意畫面／Pexels",
+      "path": "assets/pexels/8134920/video.mp4",
+      "source_in": 0.5,
+      "source_page": "https://www.pexels.com/video/a-person-working-with-an-audio-mixing-console-8134920/",
+      "reviewed": true
     },
     {
-      "source_asset_id": "original:magicreels-demo:card-07",
-      "kind": "card",
+      "source_asset_id": "pexels:video:7610992",
+      "kind": "video",
       "parts": [
         12,
         13
       ],
       "title": "放到手機檢查",
       "body": "文字有沒有太擠？\n節奏是否跟得上？",
-      "credit": "概念示意／自行製圖"
+      "credit": "示意畫面／Pexels",
+      "path": "assets/pexels/7610992/video.mp4",
+      "source_in": 0.5,
+      "source_page": "https://www.pexels.com/video/flat-lay-photography-7610992/",
+      "reviewed": true
     },
     {
-      "source_asset_id": "original:magicreels-demo:card-08",
-      "kind": "card",
+      "source_asset_id": "generated:magicreels:v020:diagram-08",
+      "kind": "diagram",
       "parts": [
         14,
         15
       ],
       "title": "做出你的第一支",
       "body": "替換文章與聲音\n開始你的製作流程",
-      "credit": "概念示意／自行製圖"
+      "credit": "概念示意／AI 製圖",
+      "path": "assets/diagram-08.png",
+      "source_page": "generated:MagicReels:diagram-08",
+      "reviewed": true
     }
   ]
 }

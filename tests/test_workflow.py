@@ -141,15 +141,40 @@ class WorkflowTests(unittest.TestCase):
         from PIL import Image
         from magicreels.pipeline import run
         Image.new('RGB', (320, 180), '#224466').save(self.root / 'photo.png')
-        run(['ffmpeg', '-v', 'error', '-n', '-f', 'lavfi', '-i', 'testsrc2=size=320x180:rate=30:duration=3',
+        run(['ffmpeg', '-v', 'error', '-n', '-f', 'lavfi', '-i', 'color=c=0x2266cc:size=320x180:rate=30:duration=3',
              '-c:v', 'libx264', '-pix_fmt', 'yuv420p', str(self.root / 'clip.mp4')])
         self.plan['scenes'][0].update(kind='image', path='photo.png', reviewed=True, source_page='original:test-photo')
         self.plan['scenes'][1].update(kind='video', path='clip.mp4', source_in=.5, reviewed=True, source_page='original:test-video')
         save(self.plan_path, self.plan)
         final = render(self.plan_path, ROOT / 'fonts', self.root / 'media-render')
         self.assertEqual(len(frame_hashes(final)), 60)
+        pixels = [run(['ffmpeg', '-v', 'error', '-ss', '1.5', '-i', str(final), '-frames:v', '1',
+                       '-vf', f'format=rgb24,crop=1:1:2:{y}', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'])
+                  for y in (300, 960)]
+        self.assertLess(max(abs(a - b) for a, b in zip(*pixels)), 4,
+                        'Uniform footage must also fill the top of the canvas, without letterboxing.')
+        bottom = run(['ffmpeg', '-v', 'error', '-ss', '1.5', '-i', str(final), '-frames:v', '1',
+                      '-vf', 'format=rgb24,crop=1:1:2:1700', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'])
+        self.assertLess(sum(bottom), sum(pixels[0]), 'The subtitle zone must be darker than the top.')
         self.plan['scenes'][1]['source_in'] = 2.5
         with self.assertRaisesRegex(ValueError, '不足'):
+            self.validate()
+
+    def test_diagram_keeps_normal_text_and_rejects_overflow(self):
+        from PIL import Image
+        from magicreels.pipeline import subtitles
+        Image.new('RGB', (1080, 1920), '#132034').save(self.root / 'diagram.png')
+        self.plan['scenes'][0].update(kind='diagram', path='diagram.png', reviewed=True,
+                                      source_page='generated:test-diagram', body='一個問題\n一句答案')
+        _, amap, _, _ = self.validate()
+        subtitles(self.plan, amap, self.root)
+        ass = (self.root / 'captions.ass').read_text()
+        self.assertIn(r'\pos(540,1190)', ass)
+        self.assertIn(r'一個問題\N一句答案', ass)
+        final = render(self.plan_path, ROOT / 'fonts', self.root / 'diagram-render')
+        self.assertEqual(len(frame_hashes(final)), 60)
+        self.plan['scenes'][0]['body'] = '第一行\n第二行\n第三行'
+        with self.assertRaisesRegex(ValueError, '超出'):
             self.validate()
 
 

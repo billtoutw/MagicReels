@@ -10,9 +10,10 @@ MagicReels code and original documentation are MIT licensed. The components belo
 | Demo narration | Generated with BreezyVoice using upstream `data/example.wav` at the pinned commit | Official reference used solely for the openly described demo. The reference recording itself is not bundled. No private personal voice was used. Generated output is not an endorsement by MediaTek Research or the reference speaker. |
 | Sans font | [Source Han Sans](https://github.com/adobe-fonts/source-han-sans), unmodified `SourceHanSansTW-Bold.otf` | SIL OFL 1.1, bundled with `fonts/OFL-Sans.txt`. |
 | Serif font | [Source Han Serif](https://github.com/adobe-fonts/source-han-serif), unmodified `SourceHanSerifTC-Bold.otf` | SIL OFL 1.1, bundled with `fonts/OFL-Serif.txt`. |
-| Demo article, plan and cards | Original MagicReels example | MIT, including rendered original card assets. |
+| Demo article, plan and graphic layout | Original MagicReels example | MIT for the original text and native layout. |
+| Two concept illustrations | Built-in ImageGen; exact prompts in `examples/first-reel/visual-prompts.json` | AI-generated illustrative assets, distinct from Pexels footage. Check applicable output terms and third-party rights for reuse. |
 | Demo music | Original score from `examples/first-reel/make_music.py` | MIT. Generated entirely from mathematical oscillators; no sampled recordings or third-party music. |
-| Optional stock footage | [Pexels](https://www.pexels.com/license/) | Retrieved by users. No stock footage is bundled. Record original IDs, source pages and creators, and review the current license. |
+| Optional stock footage | [Pexels](https://www.pexels.com/license/) | Retrieved by users. Original stock clips are downloaded locally into a gitignored directory. The composed demo includes six Pexels shots; IDs, creators and source pages are recorded in `examples/first-reel/materials.json`. Review the current license and terms, including restrictions on political contexts and standalone distribution. |
 | Optional music service | [ElevenLabs](https://elevenlabs.io/terms-of-use) | Separate service terms and plan restrictions. No service output or account credentials are bundled. |
 | Video/audio processing | [FFmpeg](https://ffmpeg.org/legal.html) | Installed separately; license depends on build configuration. |
 | Rendering and measurements | [Pillow](https://github.com/python-pillow/Pillow), [NumPy](https://github.com/numpy/numpy) | Installed through the package manager, with their respective upstream licenses. |
