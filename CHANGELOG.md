@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — 2026-10-26
+
+- Put a copyable ChatGPT Codex / Claude Code production prompt at the beginning of the README and add portable agent instructions.
+- Document mixed Chinese/English narration: targeted Bopomofo, connected English names, semantic phrasing, whole-sentence revisions, style matching and listening acceptance.
+- Add an optional pronunciation dictionary and English single-word aliases with case-sensitive name boundaries; keep Chinese original-character validation and normal subtitle copy.
+- Preserve the local-first BreezyVoice path and fixed approved voice/style references; record advanced CFM/unit repair as research methods with explicit limits.
+- Add regression coverage for aliases, the example dictionary and package/CLI/render version consistency.
+- Keep the existing v0.2 demo assets and approvals unchanged.
+
 ## 0.2.0 — 2026-10-25
 
 - Replace the text-card demo with six unique Pexels motion shots and two supporting concept diagrams.

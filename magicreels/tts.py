@@ -52,8 +52,9 @@ def prepare_breezy(text, dictionary):
     for original, replacement in dictionary.items():
         if not isinstance(original, str) or not original.strip() or not isinstance(replacement, str):
             raise ValueError("讀音字典的字詞及替換內容必須是非空白文字。")
-        if ANNOTATION.sub("", replacement) != original or "[:" in original or "<|" in replacement:
-            raise ValueError(f"讀音規則須保留原字，只加入注音：{original}")
+        english_alias = re.fullmatch(r"[A-Za-z]+", original) and re.fullmatch(r"[A-Za-z]+", replacement)
+        if (ANNOTATION.sub("", replacement) != original and not english_alias) or "[:" in original or "<|" in replacement:
+            raise ValueError(f"中文讀音規則須保留原字並只加注音；英文可指定單字拼讀：{original}")
         rules.append({"display": original, "synthesis": replacement})
     return prepare(text, rules)
 

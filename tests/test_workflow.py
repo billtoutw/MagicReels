@@ -2,9 +2,14 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 import wave
+import json
+import subprocess
+import sys
+import tomllib
 from unittest.mock import patch
 
 import numpy as np
+from magicreels import __version__
 from magicreels.pipeline import (SR, checked_path, digest, fit_text, frame_hashes, load,
                                 mix_samples, new_output, render, save, validate)
 from magicreels.tts import ANNOTATION, assemble, prepare_breezy, split_script
@@ -130,10 +135,35 @@ class WorkflowTests(unittest.TestCase):
         with wave.open(str(out / result['parts'][0]['source'])) as wav:
             self.assertEqual(master, wav.readframes(wav.getnframes()))
 
+    def test_english_aliases_keep_name_boundaries_and_chinese_guard(self):
+        text = '我是Bill，我用Codex。Bill Gates / Bill2 / Bill_v2 / BillGates / XCodex / CodexAPI / codex。'
+        spoken, changes, _ = prepare_breezy(text, {'Bill': 'bill', 'Codex': 'CodeX'})
+        self.assertEqual(spoken, '我是bill，我用CodeX。bill Gates / Bill2 / Bill_v2 / BillGates / XCodex / CodexAPI / codex。')
+        self.assertEqual([c['display'] for c in changes], ['Bill', 'Codex', 'Bill'])
+        self.assertEqual(text[changes[1]['start']:changes[1]['end']], 'Codex')
+        for bad in ({'實作': '實做'}, {'Codex': 'Code X'}, {'Bill': 'bill!'},
+                    {'Codex': 'codes<|x|>'}, {'Bill2': 'bill'}, {'好': 'hao'}):
+            with self.subTest(rule=bad), self.assertRaises(ValueError):
+                prepare_breezy(text, bad)
+
+    def test_code_switching_dictionary_preserves_normal_copy(self):
+        rules = json.loads((ROOT / 'examples/pronunciation-code-switching.json').read_text())
+        text = '大家好，我是 Bill。我用 Codex，串起腳本、配音與配樂，希望成為分享經驗與實作的人。'
+        spoken, changes, _ = prepare_breezy(text, rules)
+        restored = ANNOTATION.sub('', spoken).replace('CodeX', 'Codex').replace('bill', 'Bill')
+        self.assertEqual(restored, text)
+        self.assertEqual(len(changes), len(rules))
+
+    def test_release_version_matches_package_and_cli(self):
+        self.assertEqual(tomllib.loads((ROOT / 'pyproject.toml').read_text())['project']['version'], __version__)
+        result = subprocess.check_output([sys.executable, '-m', 'magicreels.cli', '--version'], cwd=ROOT, text=True)
+        self.assertEqual(result.strip(), f'MagicReels {__version__}')
+
     def test_render_smoke_and_decode(self):
         final = render(self.plan_path, ROOT / 'fonts', self.root / 'render')
         report = load(final.parent / 'verification.json')
         self.assertEqual(report['full_decode'], 'pass')
+        self.assertEqual(load(final.parent / 'manifest.json')['version'], __version__)
         self.assertLessEqual(report['av_tail_difference'], 1 / 30 + .002)
         self.assertEqual(len(frame_hashes(final)), 60)
 

@@ -8,7 +8,7 @@
 
 ## 2. 生成並確認聲音
 
-按 [BreezyVoice 文件](breezyvoice.md) 先生成含人名、數字或問題詞的短段。短段確認後產生完整旁白。`audio-map.json` 保存每句的實際時間、正常稿與音檔雜湊。
+按 [BreezyVoice 文件](breezyvoice.md) 先生成含人名、數字或問題詞的短段；中英夾雜依 [配音規則](breezyvoice-code-switching.md) 比對連讀、重音及前後語氣。短段確認後產生完整旁白。`audio-map.json` 保存每句的實際時間、正常稿與音檔雜湊。
 
 聽完完整音檔後，由製作者執行：
 
@@ -26,7 +26,7 @@ python -m pip install -e '.[align]'
 magicreels transcribe work/my-reel/voice/narration.wav --out work/my-reel/asr-v1
 ```
 
-首次會下載 Whisper small 模型。結果供試聽與時間校正使用；字幕沿用正常稿。v0.2 預設每個 TTS 短句對應一筆字幕，以實際分段邊界對時。整段真人錄音可先依句分割，再使用 `magicreels.tts.assemble` 建立相同格式，或由編輯建立並核對時間表。
+首次會下載 Whisper small 模型。結果供試聽與時間校正使用；字幕沿用正常稿。目前預設每個 TTS 短句對應一筆字幕，以實際分段邊界對時。整段真人錄音可先依句分割，再使用 `magicreels.tts.assemble` 建立相同格式，或由編輯建立並核對時間表。
 
 ## 3. 編排畫面與字幕
 

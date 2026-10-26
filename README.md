@@ -2,11 +2,32 @@
 
 **把長文，做成有自己聲音的繁中短影音。**
 
+## 最簡單的用法：把專案連結交給 AI
+
+把下方指令貼到 **ChatGPT Codex** 或 **Claude Code**，接著提供文章與你有權使用的參考聲音，請 AI 依照專案規則協助製作：
+
+```text
+請使用這個專案，幫我製作一支繁體中文直式短影音：
+https://github.com/billtoutw/MagicReels
+
+請先閱讀 README.md、AGENTS.md、docs/workflow.md 與 docs/breezyvoice.md，
+依照專案規則準備環境、腳本、BreezyVoice 配音、素材、字幕與配樂。
+我接著會提供文章及參考聲音；缺少必要資料時，請告訴我。
+請先讓我確認腳本、短段讀音與完整旁白，再合成影片，
+最後交付 MP4、繁中字幕、來源清單與驗證紀錄。
+```
+
+AI 使用的環境需能下載專案並執行 Python／FFmpeg。製作自己的聲音時，準備 3–30 秒乾淨錄音與相符逐字稿；Pexels 金鑰按需要設在本機環境變數。AI 會依文件處理安裝與缺少的輸入。首次安裝 BreezyVoice 需要下載數 GB 模型。
+
+想先體驗成品，可以補一句「請先跑內附的完整示範」；示範已附旁白，能先確認剪輯與字幕環境。[代理工作規則](AGENTS.md)與[中英夾雜配音規則](docs/breezyvoice-code-switching.md)也可直接交給 AI 參考。
+
+## 專案與示範
+
 MagicReels 是一套可重現、保留人工審核的製作工具包。從文章改寫提示詞開始，以 BreezyVoice 配音，編排素材與圖卡，輸出 1080 × 1920 影片及繁中字幕，再匯入配樂完成混音。
 
-v0.2.0 · Python 3.11+ · FFmpeg / libass · 本機 CLI
+v0.3.0 · Python 3.11+ · FFmpeg / libass · 本機 CLI
 
-[觀看完整示範（53 秒 MP4）](https://github.com/billtoutw/MagicReels/releases/download/v0.2.0/MagicReels-demo-v0.2.0.mp4) · [下載 v0.2.0](https://github.com/billtoutw/MagicReels/releases/tag/v0.2.0) · [查看示範輸入](examples/first-reel)
+[觀看完整示範（53 秒 MP4，沿用 v0.2）](https://github.com/billtoutw/MagicReels/releases/download/v0.2.0/MagicReels-demo-v0.2.0.mp4) · [下載 v0.3.0](https://github.com/billtoutw/MagicReels/releases/tag/v0.3.0) · [查看示範輸入](examples/first-reel)
 
 ![MagicReels 示範畫面](examples/first-reel/preview.jpg)
 
@@ -61,6 +82,8 @@ magicreels fetch 123456 --out work/asset-v1  # 將 123456 換成搜尋結果的 
 
 BreezyVoice 採獨立 Python 3.10 環境。參考聲音由使用者提供，正常稿與注音合成稿分開保存。每個短句的實際音檔邊界形成字幕時間表。需要字詞層級檢查時，可安裝 `python -m pip install -e '.[align]'` 並執行 `magicreels transcribe` 取得 Whisper 逐字時間；依試聽結果修正時間表。
 
+中英夾雜先檢查英文名稱的連讀、重音與前後語氣，按需要使用詞級注音或英文拼讀別名。完整步驟、讀音範例及整句重錄原則見 [中英夾雜配音規則](docs/breezyvoice-code-switching.md)。可沿用固定核准的聲線／風格參考，新內容由本機 BreezyVoice 生成，再逐段試聽。
+
 ### 固定版型
 
 - 9:16、1080 × 1920、30 fps、H.264 / AAC。
@@ -69,13 +92,15 @@ BreezyVoice 採獨立 Python 3.10 環境。參考聲音由使用者提供，正�
 - 來源 ID 與檔案雜湊防止同一素材再次插入。變形或重新編碼的素材仍須靠來源 ID 與人工核對。
 - 音樂以緩慢音量曲線調整，保存人聲成分與時間，混音前後比對解碼畫格。
 
-## v0.2 範圍與現況
+## v0.3 範圍與現況
+
+v0.3 新增給 ChatGPT Codex／Claude Code 的起手式、代理工作規則、中英夾雜配音指南與英文單字拼讀別名。語音單元層修補與 CFM 整句重建保留為進階方法紀錄，公開 CLI 目前提供直接 TTS 與字典處理。
 
 本版支援單支 1–180 秒影片、一套固定版型、本機 BreezyVoice、Pexels 搜尋、原創圖卡、照片／影片、逐段字幕與匯入配樂。CTA 可作為時間軸尾段，使用獨立素材。
 
 服務帳號、雲端部署、批次發布、社群排程與線上編輯器留待需求驗證。影片事實、聲音聽感、素材身分與最終觀感由製作者確認。
 
-測試範圍、硬體與已知限制見 [v0.2 驗證紀錄](docs/verification-v0.2.md)。BreezyVoice 的安裝較重，CPU 生成可能明顯慢於音檔長度；先完成短段試行再投入長片。
+本次測試與限制見 [v0.3 驗證紀錄](docs/verification-v0.3.md)，既有示範的畫面與聲音驗證保留於 [v0.2 紀錄](docs/verification-v0.2.md)。BreezyVoice 的安裝較重，CPU 生成可能明顯慢於音檔長度；先完成短段試行再投入長片。
 
 ## 來源與授權
 

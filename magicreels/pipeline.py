@@ -9,6 +9,8 @@ import subprocess
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
+from . import __version__
+
 FPS, WIDTH, HEIGHT, SR = 30, 1080, 1920, 48000
 
 
@@ -86,7 +88,7 @@ def validate(plan_file, fonts, require_approval=True):
         raise ValueError('旁白雜湊與音訊清單不同，請重新核對版本。')
     duration = float(probe(audio)['format']['duration'])
     if not math.isfinite(duration) or not 1 <= duration <= 180:
-        raise ValueError('v0.2 支援 1–180 秒影片。')
+        raise ValueError('本版支援 1–180 秒影片。')
     if not math.isfinite(float(amap['duration'])) or abs(float(amap['duration']) - duration) > .03:
         raise ValueError('音訊清單長度與實際音檔不同。')
     if require_approval:
@@ -279,7 +281,7 @@ def render(plan_file, fonts, output):
          '-c:v', 'libx264', '-crf', '20', '-preset', 'fast', '-threads', '4', '-pix_fmt', 'yuv420p',
          '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', 'film.mp4'], cwd=out)
     save(out / 'source-manifest.json', sources)
-    save(out / 'manifest.json', {'version': '0.2.0', 'title': plan['title'], 'video': 'film.mp4',
+    save(out / 'manifest.json', {'version': __version__, 'title': plan['title'], 'video': 'film.mp4',
          'audio_sha256': digest(audio), 'source_count': len(sources), 'duplicate_sources': [],
          'plan_sha256': digest(plan_file), 'human_visual_review': 'pending'})
     verify(out / 'film.mp4', out / 'verification.json')
@@ -386,7 +388,7 @@ def mix(video, music, output):
     video, music = Path(video).resolve(), Path(music).resolve()
     duration = float(probe(video)['format']['duration'])
     if not math.isfinite(duration) or not 1 <= duration <= 180:
-        raise ValueError('v0.2 支援 1–180 秒影片。')
+        raise ValueError('本版支援 1–180 秒影片。')
     if next(s for s in probe(video)['streams'] if s['codec_type'] == 'video')['codec_name'] != 'h264':
         raise ValueError('混音輸入須為 H.264 MP4。')
     voice, score = decode(video), decode(music)
