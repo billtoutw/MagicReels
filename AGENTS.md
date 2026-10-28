@@ -12,7 +12,7 @@
 ## 製作與驗收
 
 - 核對文章來源與事實，先讓使用者確認腳本。正式名稱及已核准文字保持原樣；修訂依使用者指定範圍執行。
-- 預設 Qwen3-TTS 1.7B Base（BF16），透過 MLX Audio 在 Apple Silicon Mac 本機生成，搭配使用者的參考錄音與精確逐字稿複製聲線；直接使用 `magicreels-qwen`，無須安裝 Voicebox App。其他平台先說明硬體限制。
+- 預設 Qwen3-TTS 1.7B Base（BF16），透過 MLX Audio 在 Apple Silicon Mac 本機生成，搭配使用者的參考錄音與精確逐字稿複製聲線；直接使用 `magicreels-qwen`，無須安裝 Voicebox App。先核對硬體，其他桌面平台參考 README 的 Voicebox 選項及 `docs/workflow.md` 的外部音訊銜接；說明尚待跨平台實測，並保留人工試聽及音訊映射步驟。
 - 新配音先試聽含人名、英文、數字與問題詞的短段，再確認完整旁白，最後合成影片；內附示範保留原有 BreezyVoice 來源及其音檔雜湊的既有核准紀錄。
 - 正常稿與合成稿分開；Qwen 的同音字、數字讀法與英文拼讀別名只進合成稿。BreezyVoice 注音字典僅用於該引擎。短詞修補若造成停頓，改處理完整語意句，連同前後句比對語氣。
 - 可用已核准、無配樂且逐字稿相符的固定聲線／風格參考，新文字由本機產生。付費 Fish Audio 僅按使用者明確指定使用。

@@ -20,7 +20,9 @@ uv pip install --python .runtime/qwen/bin/python \
 - [MLX Audio](https://github.com/Blaizzy/mlx-audio) `0.4.1`、MLX `0.32.4`，完整參考環境見 [依賴版本](../qwen/requirements-lock.txt)。
 - 使用 Base 模型的參考聲音 encoder 與逐字稿；聲音自然度、口音與語氣以實際試聽確認。
 
-本流程已於 Apple Silicon、24 GiB 記憶體環境使用。其他記憶體容量的效能尚未驗證；Linux、Windows 與 Intel Mac 請先使用已生成的旁白完成剪輯。`magicreels-qwen` 會在不支援的平台停止。
+本流程已於 Apple Silicon、24 GiB 記憶體環境使用。其他記憶體容量的效能尚未驗證；`magicreels-qwen` 會在不支援的平台停止。
+
+Linux、Windows 與 Intel Mac 可參考 [README 的 Voicebox 平台及安裝說明](../README.md#voicebox)，另行生成旁白後依 [外部音訊銜接](workflow.md#voicebox-handoff)接回 MagicReels。這個可選流程仍需整理音訊映射與人工核准；目前的自動配音命令維持使用 MLX。
 
 ## 先生成短段
 

@@ -28,6 +28,20 @@ magicreels transcribe work/my-reel/voice/narration.wav --out work/my-reel/asr-v1
 
 首次會下載 Whisper small 模型。結果供試聽與時間校正使用；字幕沿用正常稿。目前預設每個 TTS 短句對應一筆字幕，以實際分段邊界對時。整段真人錄音可先依句分割，再使用 `magicreels.tts.assemble` 建立相同格式，或由編輯建立並核對時間表。
 
+<a id="voicebox-handoff"></a>
+
+### Voicebox／外部音訊銜接
+
+其他桌面平台可參考 [Voicebox 安裝選項](../README.md#voicebox)，用自己的授權參考錄音生成旁白。先試聽短段、再確認完整稿，將音檔與正常稿放在新的 `work/<片名>/` 版本目錄。
+
+目前需由製作者或程式代理依實際音檔整理音訊映射：
+
+1. 依正常稿分割單聲道 PCM WAV；每段保留完整語意，字幕控制在兩行內，正常文字及正式名稱保持原樣。
+2. 在新輸出目錄先建立 `raw/`，再用既有 `magicreels.tts.assemble` 傳入依序排列的音檔、對應正常稿與輸出目錄。要保留已核准的樣本，可指定 `preserve_pcm=True`，各段須有相同取樣率與位元深度；將回傳的音訊清單保存為 `audio-map.json`。
+3. 聽完整合併音軌，以 `approve-audio` 記錄該版本的實際核准，再把音訊清單與核准檔接到 `project.json`。
+
+Voicebox API 自動串接與一鍵匯入尚未實作。這份文件說明外部音訊如何沿用既有資料格式，Voicebox 到 MagicReels 的跨平台完整流程仍待實機驗證。
+
 ## 3. 編排畫面與字幕
 
 `project.json` 的必要欄位：
