@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -78,47 +79,63 @@ def init_breezy(runtime):
     converter.num_workers = 0
     return model, converter, single_inference
 
-def assemble(raw_paths, displays, out):
+def assemble(raw_paths, displays, out, *, preserve_pcm=False):
     if not raw_paths or len(raw_paths) != len(displays):
         raise ValueError("每個正常稿句段須對應一個音檔。")
     pieces, counts = [], []
+    sample_rate, sample_width = SAMPLE_RATE, 2
+    if preserve_pcm:
+        with wave.open(str(raw_paths[0]), "rb") as wav:
+            sample_rate, sample_width = wav.getframerate(), wav.getsampwidth()
     for path in raw_paths:
-        pcm = subprocess.check_output(["ffmpeg", "-v", "error", "-i", str(path),
-            "-ar", str(SAMPLE_RATE), "-ac", "1", "-f", "s16le", "-"])
-        if len(pcm) < SAMPLE_RATE // 2:
+        if preserve_pcm:
+            with wave.open(str(path), "rb") as wav:
+                if wav.getparams()[:3] != (1, sample_width, sample_rate):
+                    raise ValueError("保留 PCM 時，各段須為相同格式的單聲道 WAV。")
+                pcm = wav.readframes(wav.getnframes())
+        else:
+            pcm = subprocess.check_output(["ffmpeg", "-v", "error", "-i", str(path),
+                "-ar", str(sample_rate), "-ac", "1", "-f", "s16le", "-"])
+        if len(pcm) < sample_rate * sample_width // 4:
             raise ValueError(f"音檔過短：{path.name}")
         pieces.append(pcm)
-        counts.append(len(pcm) // 2)
+        counts.append(len(pcm) // sample_width)
     raw_master = out / "raw/narration.wav"
     with wave.open(str(raw_master), "wb") as wav:
-        wav.setparams((1, 2, SAMPLE_RATE, 0, "NONE", "not compressed"))
+        wav.setparams((1, sample_width, sample_rate, 0, "NONE", "not compressed"))
         wav.writeframes(b"".join(pieces))
     master, delivery = out / "narration.wav", out / "narration.mp3"
-    filters = (f"loudnorm=I=-16:TP=-1.5:LRA=11,aresample={SAMPLE_RATE},"
+    filters = (f"loudnorm=I=-16:TP=-1.5:LRA=11,aresample={sample_rate},"
                f"apad=whole_len={sum(counts)},atrim=end_sample={sum(counts)}")
-    subprocess.run(["ffmpeg", "-v", "error", "-n", "-i", str(raw_master), "-af", filters,
-                    "-ar", str(SAMPLE_RATE), "-ac", "1", "-c:a", "pcm_s16le", str(master)], check=True)
+    if preserve_pcm:
+        if master.exists():
+            raise FileExistsError(master)
+        shutil.copyfile(raw_master, master)
+        filters = "preserve_input_pcm"
+    else:
+        subprocess.run(["ffmpeg", "-v", "error", "-n", "-i", str(raw_master), "-af", filters,
+                        "-ar", str(sample_rate), "-ac", "1", "-c:a", "pcm_s16le", str(master)], check=True)
     with wave.open(str(master), "rb") as wav:
-        assert wav.getparams()[:3] == (1, 2, SAMPLE_RATE)
+        assert wav.getparams()[:3] == (1, sample_width, sample_rate)
         pcm = wav.readframes(wav.getnframes())
-    assert len(pcm) == sum(counts) * 2
+    assert len(pcm) == sum(counts) * sample_width
     timeline, offset = [], 0
     for i, (count, text) in enumerate(zip(counts, displays), 1):
         path = out / f"{i:03}.wav"
-        part = pcm[offset * 2:(offset + count) * 2]
+        part = pcm[offset * sample_width:(offset + count) * sample_width]
         with wave.open(str(path), "wb") as wav:
-            wav.setparams((1, 2, SAMPLE_RATE, 0, "NONE", "not compressed"))
+            wav.setparams((1, sample_width, sample_rate, 0, "NONE", "not compressed"))
             wav.writeframes(part)
         timeline.append({"part": i, "source": path.name, "display": text,
-                         "start": offset / SAMPLE_RATE, "end": (offset + count) / SAMPLE_RATE,
+                         "start": offset / sample_rate, "end": (offset + count) / sample_rate,
                          "samples": count, "pcm_sha256": hashlib.sha256(part).hexdigest()})
         offset += count
     subprocess.run(["ffmpeg", "-v", "error", "-n", "-i", str(master),
                     "-c:a", "libmp3lame", "-b:a", "192k", str(delivery)], check=True)
     for audio in (master, delivery):
         subprocess.run(["ffmpeg", "-v", "error", "-i", str(audio), "-f", "null", "-"], check=True)
-    return {"master": master.name, "delivery": delivery.name, "duration": offset / SAMPLE_RATE,
-            "sample_rate": SAMPLE_RATE, "channels": 1, "parts": timeline,
+    return {"master": master.name, "delivery": delivery.name, "duration": offset / sample_rate,
+            "sample_rate": sample_rate, "channels": 1, "parts": timeline,
             "master_sha256": sha256(master), "delivery_sha256": sha256(delivery),
             "full_decode": "pass", "postprocessing": filters, "speed": 1,
             "human_audition": "pending"}

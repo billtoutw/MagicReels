@@ -1,4 +1,4 @@
-# Tested core environment: Python 3.11. BreezyVoice uses its separate Python 3.10 lock.
+# Tested core environment: Python 3.11. Qwen MLX dependencies are an optional separate environment.
 numpy==2.4.6
 Pillow==12.3.0
 -e .

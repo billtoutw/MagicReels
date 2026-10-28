@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 — 2026-10-28
+
+- Make Qwen3-TTS 1.7B Base BF16 through MLX Audio the primary Apple Silicon narration workflow, using a local reference recording and exact transcript for voice cloning.
+- Add `magicreels-qwen`, pinned model/runtime versions, isolated setup instructions and a Qwen-specific synthesis dictionary. Voicebox App is not required.
+- Preserve normal display copy, per-part audio maps, hash-bound listening approval, versioned outputs and failure artifacts. Keep Qwen's constant-gain 24 kHz / 24-bit PCM unchanged during assembly.
+- Update the AI quickstart, agent instructions and workflow; retain the legacy BreezyVoice CLI and the original v0.2 demo and approvals.
+- Add regression coverage for Qwen pronunciation boundaries, signal processing, exact PCM assembly, reference validation and platform checks.
+
 ## 0.3.0 — 2026-10-26
 
 - Put a copyable ChatGPT Codex / Claude Code production prompt at the beginning of the README and add portable agent instructions.

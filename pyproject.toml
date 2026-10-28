@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "magicreels"
-version = "0.3.0"
+version = "0.4.0"
 description = "A reproducible Traditional Chinese article-to-reel production toolkit"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -17,9 +17,11 @@ Issues = "https://github.com/billtoutw/MagicReels/issues"
 
 [project.optional-dependencies]
 align = ["faster-whisper>=1.1,<2"]
+qwen = ["mlx-audio==0.4.1", "mlx==0.32.4", "soundfile==0.14.0", "pyloudnorm==0.2.0", "transformers==5.21.0", "sentencepiece==0.2.2"]
 
 [project.scripts]
 magicreels = "magicreels.cli:main"
+magicreels-qwen = "magicreels.qwen:main"
 
 [tool.setuptools]
 packages = ["magicreels"]

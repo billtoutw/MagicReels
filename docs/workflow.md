@@ -8,7 +8,7 @@
 
 ## 2. 生成並確認聲音
 
-按 [BreezyVoice 文件](breezyvoice.md) 先生成含人名、數字或問題詞的短段；中英夾雜依 [配音規則](breezyvoice-code-switching.md) 比對連讀、重音及前後語氣。短段確認後產生完整旁白。`audio-map.json` 保存每句的實際時間、正常稿與音檔雜湊。
+按 [Qwen3-TTS 文件](qwen3-tts.md) 使用 1.7B Base 與 MLX Audio，在 Apple Silicon Mac 本機搭配參考錄音及逐字稿生成聲音。先生成含人名、數字或問題詞的短段；中英夾雜比對連讀、重音及前後語氣。短段確認後產生完整旁白。`audio-map.json` 保存每句的實際時間、正常稿與音檔雜湊。此流程直接使用 MLX Audio，無須安裝 Voicebox App。
 
 聽完完整音檔後，由製作者執行：
 

@@ -1,5 +1,7 @@
 # BreezyVoice 本機配音
 
+本頁保留 v0.1–v0.3 與內附示範使用的歷史入口。v0.4 的主要配音流程請使用 [Qwen3-TTS／MLX Audio](qwen3-tts.md)；既有 BreezyVoice 指令及輸出格式保持相容。
+
 MagicReels 的配音命令是 `python magicreels/tts.py`。它使用使用者提供的參考錄音，輸出正常稿、注音合成稿、替換紀錄、分段 WAV、完整 WAV／MP3，以及可攜的 `audio-map.json`。
 
 ## 已整理的環境
