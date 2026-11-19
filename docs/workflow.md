@@ -8,7 +8,7 @@
 
 ## 2. 生成並確認聲音
 
-按 [VoiceStudio 文件](voicestudio.md) 使用本機後端、Qwen3-TTS 1.7B Base、參考錄音及逐字稿生成聲音。先生成含人名、數字或問題詞的短段，試聽連讀、重音及前後語氣。短段確認後產生完整旁白。`generation-plan.json` 保存生成段落全文與數量，`audio-map.json` 保存各生成段的實際時間、正常稿、音檔與計畫雜湊。
+Apple Silicon Mac 按 [VoiceStudio 自動配音](voicestudio.md)使用本機後端、Qwen3-TTS 1.7B Base、參考錄音及逐字稿生成聲音。桌面版匯出的 WAV 請走 [外部音檔銜接](#external-audio-handoff)。先生成含人名、數字或問題詞的短段，試聽連讀、重音及前後語氣。短段確認後產生完整旁白。自動入口的 `generation-plan.json` 保存生成段落全文與數量，`audio-map.json` 保存各生成段的實際時間、正常稿、音檔與計畫雜湊。
 
 聽完完整音檔後，由製作者執行：
 
@@ -29,18 +29,19 @@ magicreels transcribe work/my-reel/voice/narration.wav --out work/my-reel/asr-v1
 首次會下載 Whisper small 模型。結果供試聽與時間校正使用；字幕沿用正常稿。生成段落可以長於一筆字幕。現有渲染器仍要求每個音訊 part 對應一筆字幕；先依 Whisper 與試聽確認較細邊界，將已核准的單聲道 PCM 按邊界連續切片，在新目錄建立 `raw/`，以 `magicreels.tts.assemble(..., preserve_pcm=True)` 重建供字幕使用的映射。核對切片重組的整軌 PCM 與核准音訊完全一致，保留原始生成映射及樣本範圍。若 WAV 檔案雜湊改變，核對保留證據並依實際試聽決定重新保存核准紀錄。禁止為了字幕版面把長段逐句重生。整段真人錄音可先依句分割，再使用 `magicreels.tts.assemble` 建立相同格式，或由編輯建立並核對時間表。
 
 <a id="voicebox-handoff"></a>
+<a id="external-audio-handoff"></a>
 
-### Voicebox／外部音訊銜接
+### VoiceStudio 桌面版與外部音檔銜接
 
-其他桌面平台可參考 [Voicebox 安裝選項](../README.md#voicebox)，用自己的授權參考錄音生成旁白。先試聽短段、再確認完整稿，將音檔與正常稿放在新的 `work/<片名>/` 版本目錄。
+參考 [VoiceStudio 安裝選項](../README.md#cross-platform-audio)，使用有權使用的參考錄音和相符逐字稿生成旁白。先試聽短段及完整稿，再匯出 WAV，將音檔、正常稿與合成稿放在新的 `work/<片名>/` 版本目錄。
 
-目前需由製作者或程式代理依實際音檔整理音訊映射：
+由製作者或程式代理依實際音檔整理音訊映射。
 
-1. 依正常稿分割單聲道 PCM WAV；每段保留完整語意，字幕控制在兩行內，正常文字及正式名稱保持原樣。
-2. 在新輸出目錄先建立 `raw/`，再用既有 `magicreels.tts.assemble` 傳入依序排列的音檔、對應正常稿與輸出目錄。要保留已核准的樣本，可指定 `preserve_pcm=True`，各段須有相同取樣率與位元深度；將回傳的音訊清單保存為 `audio-map.json`。
-3. 聽完整合併音軌，以 `approve-audio` 記錄該版本的實際核准，再把音訊清單與核准檔接到 `project.json`。
+1. 依實際發音與正常稿對時，將 WAV 連續切成與字幕對應的片段。字幕最多兩行，正式名稱及正常文字保持原樣。組裝前確認所有片段皆為單聲道 PCM WAV，取樣率及位元深度一致。
+2. 在新的輸出目錄建立 `raw/`，將依序排列的音檔、對應正常稿及輸出目錄傳入 `magicreels.tts.assemble(..., preserve_pcm=True)`。此模式保留輸入 PCM，將回傳的音訊清單保存為 `audio-map.json`。
+3. 試聽完整音軌後，以 `magicreels approve-audio` 記錄該版的核准，再將音訊清單與核准檔填入 `project.json`。
 
-Voicebox API 自動串接與一鍵匯入尚未實作。這份文件說明外部音訊如何沿用既有資料格式，Voicebox 到 MagicReels 的跨平台完整流程仍待實機驗證。
+這條跨平台路徑採桌面版匯出和既有音檔組裝。各桌面平台的完整流程仍待實機驗證。
 
 ## 3. 編排畫面與字幕
 

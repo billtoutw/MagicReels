@@ -2,6 +2,8 @@
 
 MagicReels 使用 VoiceStudio v0.5.8 的本機 MLX Audio 後端，搭配 Qwen3-TTS 1.7B Base BF16 和使用者提供的參考聲音及逐字稿。這條路徑在 Apple Silicon Mac 上執行，使用獨立 Python 3.11 環境。MagicReels 負責分段計畫、合成稿、WAV／MP3 組裝與音訊映射。
 
+Windows 和 Linux 可用 VoiceStudio 桌面版生成並匯出 WAV。Intel Mac 可用桌面介面連至另一台相容電腦的後端生成。安裝包與平台限制見 [跨平台配音表](../README.md#cross-platform-audio)，匯出後依 [外部音檔銜接](workflow.md#external-audio-handoff)組裝。以下指令適用於 Apple Silicon 的自動配音。
+
 ## 安裝
 
 準備 Git、uv 和 FFmpeg，從 MagicReels 根目錄執行：

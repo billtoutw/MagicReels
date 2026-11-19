@@ -1,6 +1,6 @@
 # Qwen3-TTS 本機聲線複製
 
-v0.4 使用 **Qwen3-TTS 1.7B Base（BF16）**，透過 **MLX Audio** 在 **Apple Silicon Mac 本機**生成音檔，搭配使用者的參考錄音與相符逐字稿複製聲線。入口是 `magicreels-qwen`，也可使用 `python -m magicreels.qwen`。此流程直接呼叫 MLX Audio，無須安裝 Voicebox App。
+v0.4 使用 **Qwen3-TTS 1.7B Base（BF16）**，透過 **MLX Audio** 在 **Apple Silicon Mac 本機**生成音檔，搭配使用者的參考錄音與相符逐字稿複製聲線。入口是 `magicreels-qwen`，也可使用 `python -m magicreels.qwen`。
 
 新案的預設入口請見 [VoiceStudio 本機配音](voicestudio.md)。以下步驟可用於直接呼叫 MLX Audio 或重現既有 Qwen 配音。
 
@@ -28,7 +28,7 @@ uv pip install --python .runtime/qwen/bin/python \
 
 本流程已於 Apple Silicon、24 GiB 記憶體環境使用。其他記憶體容量的效能尚未驗證；`magicreels-qwen` 會在不支援的平台停止。
 
-Linux、Windows 與 Intel Mac 可參考 [README 的 Voicebox 平台及安裝說明](../README.md#voicebox)，另行生成旁白後依 [外部音訊銜接](workflow.md#voicebox-handoff)接回 MagicReels。這個可選流程仍需整理音訊映射與人工核准；目前的自動配音命令維持使用 MLX。
+其他桌面平台可依 [VoiceStudio 平台與安裝說明](../README.md#cross-platform-audio)生成旁白並匯出 WAV，再按 [外部音檔銜接](workflow.md#external-audio-handoff)整理音訊映射與人工核准。
 
 ## 先生成短段
 
