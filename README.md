@@ -30,9 +30,9 @@ MagicReels 是一套可重現、保留人工審核的製作工具包。從文章
 
 Apple Silicon Mac 可使用 [`magicreels-voicestudio`](docs/voicestudio.md)自動配音。其他桌面平台透過 [VoiceStudio 桌面版匯出 WAV](#cross-platform-audio)，接回相同的影片製作流程。需要重現既有配音時可使用 [`magicreels-qwen`](docs/qwen3-tts.md)。
 
-v0.4.0 · Python 3.11+ · FFmpeg / libass · 本機 CLI
+v0.5.0 · Python 3.11+ · FFmpeg / libass · 本機 CLI
 
-[觀看完整示範（53 秒 MP4，沿用 v0.2）](https://github.com/billtoutw/MagicReels/releases/download/v0.2.0/MagicReels-demo-v0.2.0.mp4) · [下載 v0.4.0](https://github.com/billtoutw/MagicReels/releases/tag/v0.4.0) · [查看示範輸入](examples/first-reel)
+[觀看完整示範（53 秒 MP4，沿用 v0.2）](https://github.com/billtoutw/MagicReels/releases/download/v0.2.0/MagicReels-demo-v0.2.0.mp4) · [下載 v0.5.0](https://github.com/billtoutw/MagicReels/releases/tag/v0.5.0) · [查看示範輸入](examples/first-reel)
 
 ![MagicReels 示範畫面](examples/first-reel/preview.jpg)
 
@@ -116,9 +116,9 @@ Apple Silicon 自動配音使用獨立 Python 3.11 環境、MLX Audio 0.5.0 與�
 - 來源 ID 與檔案雜湊防止同一素材再次插入。變形或重新編碼的素材仍須靠來源 ID 與人工核對。
 - 音樂以緩慢音量曲線調整，保存人聲成分與時間，混音前後比對解碼畫格。
 
-## v0.4 範圍與現況
+## v0.5.0 範圍與現況
 
-v0.4 將主要配音流程接到 Qwen3-TTS 1.7B Base／MLX Audio，新增 `magicreels-qwen`、獨立安裝說明、正常稿與合成稿分離的讀音修訂，以及保留 24 kHz／24-bit PCM 的音訊映射。使用參考錄音及逐字稿生成新文字，全程保留人工試聽步驟。
+v0.5.0 在 Apple Silicon Mac 透過 `magicreels-voicestudio` 自動配音，使用固定的 Qwen3-TTS 1.7B Base BF16 模型。新增語意段落預檢，保留 24 kHz／24-bit PCM 音訊映射與人工試聽步驟。其他桌面平台可由 VoiceStudio 匯出 WAV 後接回同一套製作流程。完整改動見 [更新紀錄](CHANGELOG.md)。
 
 本版支援單支 1–180 秒影片、一套固定版型、本機 Qwen3-TTS、Pexels 搜尋、原創圖卡、照片／影片、逐段字幕與匯入配樂。CTA 可作為時間軸尾段，使用獨立素材。
 

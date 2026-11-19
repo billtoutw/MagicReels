@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0 — 2026-11-19
+
+- Use VoiceStudio's local MLX Audio backend for automatic narration on Apple Silicon via `magicreels-voicestudio`, with the pinned Qwen3-TTS 1.7B Base BF16 model and user-supplied voice reference.
+- Accept explicit semantic blocks and provide `--plan-only` for checking segment order, exact display text, and synthesis substitutions before generation.
+- Document VoiceStudio desktop installation and WAV handoff for other platforms, including the remote backend requirement on Intel Macs.
+- Keep the existing `magicreels-qwen` entry point for reproducing earlier narration. Audio maps continue to support PCM-preserving edits and hash-bound listening approval.
+
 ## 0.4.0 — 2026-10-28
 
 - Make Qwen3-TTS 1.7B Base BF16 through MLX Audio the primary Apple Silicon narration workflow, using a local reference recording and exact transcript for voice cloning.
