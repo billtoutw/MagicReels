@@ -1,17 +1,122 @@
 import json
+import os
 from pathlib import Path
+import sys
 from tempfile import TemporaryDirectory
+from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 import wave
 
 import numpy as np
 
-from magicreels.qwen import SAMPLE_RATE, finish_audio, load_qwen, main, prepare_qwen
+from magicreels.qwen import SAMPLE_RATE, finish_audio, load_qwen, main, plan_segments, prepare_qwen
 from magicreels.tts import assemble
+from magicreels.voicestudio import load_voicestudio
 
 
 class QwenTests(unittest.TestCase):
+    def test_voicestudio_loads_the_resolved_local_checkpoint(self):
+        checkpoint = Path('/local/checkpoint')
+        backend = SimpleNamespace(supports_cloning=True, sample_rate=SAMPLE_RATE)
+        factory = Mock(return_value=backend)
+        with patch.dict(os.environ), \
+             patch.dict(sys.modules, {'services.tts_backend': SimpleNamespace(MLXAudioBackend=factory)}), \
+             patch('magicreels.voicestudio.resolve_checkpoint', return_value=checkpoint):
+            self.assertEqual(load_voicestudio(), (backend, checkpoint))
+            self.assertEqual(os.environ['OMNIVOICE_MLX_AUDIO_MODEL'], str(checkpoint))
+            backend.sample_rate = 44100
+            with self.assertRaises(ValueError):
+                load_voicestudio()
+
+    def test_semantic_blocks_keep_sentences_and_line_wraps_together(self):
+        blocks = ['版本 9.2 有什麼改變？\n第一個改變是速度。第二個是容量！',
+                  '接著說明成本。最後回到使用情境。']
+        text = '\r\n'.join(blocks)
+        rows = plan_segments(text, {}, blocks)
+        self.assertEqual([row['synthesis'] for row in rows], blocks)
+        self.assertEqual([row['part'] for row in rows], [1, 2])
+
+    def test_plan_rejects_missing_reordered_changed_and_oversized_text(self):
+        text = '先確認原因。接著說明影響。'
+        for bad in ([], {}, [''], [None], ['先確認原因。'],
+                    ['接著說明影響。', '先確認原因。'], ['先確認結果。接著說明影響。']):
+            with self.subTest(plan=bad), self.assertRaises(ValueError):
+                plan_segments(text, {}, bad)
+        for dictionary, block in (({}, '甲。' * 61), ({'好': '好' * 121}, '好')):
+            with self.assertRaisesRegex(ValueError, '120'):
+                plan_segments(block, dictionary, [block])
+
+    def test_script_requires_plan_before_model_load_or_output(self):
+        with TemporaryDirectory() as tmp:
+            out = Path(tmp) / 'voice'
+            args = ['magicreels-qwen', '--script', 'script.txt', '--out', str(out),
+                    '--reference', 'ref.wav', '--reference-text', 'ref.txt']
+            with patch('sys.argv', args), patch('magicreels.qwen.load_qwen') as loader, \
+                 patch('sys.stderr'), self.assertRaises(SystemExit) as error:
+                main()
+            self.assertEqual(error.exception.code, 2)
+            loader.assert_not_called()
+            self.assertFalse(out.exists())
+
+    def test_plan_only_preserves_source_bytes_without_reference_or_model_access(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            original = '預期會改善。\r\n接著比較同期。\r\n'.encode('utf-8')
+            script = root / 'script.txt'
+            script.write_bytes(original)
+            segments = root / 'segments.json'
+            segments.write_text(json.dumps(['預期會改善。接著比較同期。']))
+            rules = root / 'rules.json'
+            rules.write_text(json.dumps({'預期': '育奇'}))
+            out = root / 'plan'
+            args = ['magicreels-qwen', '--script', str(script), '--segments', str(segments),
+                    '--pronunciations', str(rules), '--plan-only', '--out', str(out),
+                    '--reference', 'unused.wav', '--reference-text', 'unused.txt']
+            with patch('sys.argv', args), patch('magicreels.qwen.load_qwen') as loader:
+                main()
+            loader.assert_not_called()
+            self.assertEqual((out / 'display-script.txt').read_bytes(), original)
+            plan = json.loads((out / 'generation-plan.json').read_text())
+            self.assertEqual(plan['segment_count'], 1)
+            self.assertEqual(plan['segments'][0]['synthesis'], '育奇會改善。接著比較同期。')
+            self.assertFalse((out / 'narration.wav').exists())
+
+    def test_model_receives_whole_blocks_once_without_sentence_splitting(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            blocks = ['先說明原因。再說明影響？最後回到重點！', '這是另一段。語調需要延續。']
+            script = root / 'script.txt'
+            script.write_text('\n'.join(blocks))
+            segments = root / 'segments.json'
+            segments.write_text(json.dumps(blocks))
+            reference = root / 'reference.wav'
+            with wave.open(str(reference), 'wb') as wav:
+                wav.setparams((1, 2, SAMPLE_RATE, 0, 'NONE', ''))
+                wav.writeframes(b'\0\0' * SAMPLE_RATE * 3)
+            transcript = root / 'reference.txt'
+            transcript.write_text('參考錄音。')
+            (root / 'config.json').write_text('{}')
+            model = Mock()
+            model.generate.side_effect = lambda *a, **k: [SimpleNamespace(audio=np.zeros(SAMPLE_RATE), sample_rate=SAMPLE_RATE)]
+            mx = SimpleNamespace(random=SimpleNamespace(seed=lambda _: None), clear_cache=lambda: None)
+            sf = SimpleNamespace(write=lambda path, *a, **k: Path(path).write_bytes(b'mocked-wave'))
+            modules = {'mlx': SimpleNamespace(core=mx), 'mlx.core': mx, 'soundfile': sf,
+                       'pyloudnorm': SimpleNamespace(Meter=lambda _: None)}
+            out = root / 'voice'
+            args = ['magicreels-qwen', '--script', str(script), '--segments', str(segments),
+                    '--reference', str(reference), '--reference-text', str(transcript), '--out', str(out)]
+            with patch('sys.argv', args), patch.dict(sys.modules, modules), \
+                 patch('magicreels.qwen.load_qwen', return_value=(model, root)), \
+                 patch('magicreels.qwen.finish_audio', return_value=(np.zeros(SAMPLE_RATE), {})), \
+                 patch('magicreels.qwen.assemble', return_value={'parts': [{}, {}]}), \
+                 patch('magicreels.qwen.importlib.metadata.version', return_value='test'):
+                main()
+            self.assertEqual([call.args[0] for call in model.generate.call_args_list], blocks)
+            result = json.loads((out / 'audio-map.json').read_text())
+            self.assertEqual(result['generation_segment_count'], 2)
+            self.assertIn('generation_plan_sha256', result)
+
     def test_phonetics_stay_separate_and_respect_english_boundaries(self):
         text = "2 兆與預期、同期。Claude / ClaudeAPI / claude。"
         spoken, changes, _ = prepare_qwen(text, {"2 兆": "兩兆", "預期": "育奇", "同期": "同旗", "Claude": "Cloud"})

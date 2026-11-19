@@ -18,10 +18,12 @@ Issues = "https://github.com/billtoutw/MagicReels/issues"
 [project.optional-dependencies]
 align = ["faster-whisper>=1.1,<2"]
 qwen = ["mlx-audio==0.4.1", "mlx==0.32.4", "soundfile==0.14.0", "pyloudnorm==0.2.0", "transformers==5.21.0", "sentencepiece==0.2.2"]
+voicestudio = ["mlx-audio==0.5.0", "mlx==0.32.4", "soundfile==0.14.0", "pyloudnorm==0.2.0", "transformers==5.15.1", "torch==2.10.0"]
 
 [project.scripts]
 magicreels = "magicreels.cli:main"
 magicreels-qwen = "magicreels.qwen:main"
+magicreels-voicestudio = "magicreels.voicestudio:main"
 
 [tool.setuptools]
 packages = ["magicreels"]

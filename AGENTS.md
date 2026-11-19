@@ -4,7 +4,7 @@
 
 ## 先讀與準備
 
-- 先讀 `README.md` 與 `docs/workflow.md`；配音讀 `docs/qwen3-tts.md`；素材讀 `docs/pexels.md`。歷史 BreezyVoice 專案再查閱其專屬文件。
+- 先讀 `README.md` 與 `docs/workflow.md`。配音讀 `docs/voicestudio.md`，素材讀 `docs/pexels.md`。歷史配音可查各引擎文件。
 - 先檢查執行環境及使用者已有的文章、定稿、參考聲音、逐字稿與素材；只詢問缺少的必要輸入。Qwen3-TTS 使用獨立 Python 3.11 環境。
 - 每支影片放在新的 `work/<片名>/`，各次生成、修訂與合成使用新版本目錄，保留既有成品。
 - 私人參考聲音、金鑰及未公開內容留在 Git 忽略目錄。Pexels 金鑰由本機環境變數提供。
@@ -12,8 +12,9 @@
 ## 製作與驗收
 
 - 核對文章來源與事實，先讓使用者確認腳本。正式名稱及已核准文字保持原樣；修訂依使用者指定範圍執行。
-- 預設 Qwen3-TTS 1.7B Base（BF16），透過 MLX Audio 在 Apple Silicon Mac 本機生成，搭配使用者的參考錄音與精確逐字稿複製聲線；直接使用 `magicreels-qwen`，無須安裝 Voicebox App。先核對硬體，其他桌面平台參考 README 的 Voicebox 選項及 `docs/workflow.md` 的外部音訊銜接；說明尚待跨平台實測，並保留人工試聽及音訊映射步驟。
+- 預設使用 `magicreels-voicestudio`，透過 VoiceStudio 的 MLX Audio 後端，在 Apple Silicon Mac 執行 Qwen3-TTS 1.7B Base（BF16），搭配使用者的參考錄音與逐字稿。需要重現既有配音時使用 `magicreels-qwen`。其他桌面平台可依 `docs/workflow.md` 銜接外部音檔，保留試聽及音訊映射步驟。
 - 新配音先試聽含人名、英文、數字與問題詞的短段，再確認完整旁白，最後合成影片；內附示範保留原有 BreezyVoice 來源及其音檔雜湊的既有核准紀錄。
+- VoiceStudio 和 Qwen 的 `--script` 均搭配 `--segments` 語意段落 JSON，先執行 `--plan-only` 核對計畫。每段可含多個句子，生成時保持完整。多句段落與相鄰銜接須試聽。字幕切段在核准音訊完成後處理。
 - 正常稿與合成稿分開；Qwen 的同音字、數字讀法與英文拼讀別名只進合成稿。BreezyVoice 注音字典僅用於該引擎。短詞修補若造成停頓，改處理完整語意句，連同前後句比對語氣。
 - 可用已核准、無配樂且逐字稿相符的固定聲線／風格參考，新文字由本機產生。付費 Fish Audio 僅按使用者明確指定使用。
 - 聲音核准綁定實際音檔雜湊。`approve-audio` 只能記錄使用者的實際試聽決定；ASR、音量與基頻量測作為輔助。

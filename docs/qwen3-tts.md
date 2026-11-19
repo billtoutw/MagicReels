@@ -2,6 +2,12 @@
 
 v0.4 使用 **Qwen3-TTS 1.7B Base（BF16）**，透過 **MLX Audio** 在 **Apple Silicon Mac 本機**生成音檔，搭配使用者的參考錄音與相符逐字稿複製聲線。入口是 `magicreels-qwen`，也可使用 `python -m magicreels.qwen`。此流程直接呼叫 MLX Audio，無須安裝 Voicebox App。
 
+新案的預設入口請見 [VoiceStudio 本機配音](voicestudio.md)。以下步驟可用於直接呼叫 MLX Audio 或重現既有 Qwen 配音。
+
+## 語意段落
+
+`--script` 搭配 `--segments`，每個語意段落可包含多個句號，完整送入一次 `model.generate`。需要語意分段時從 GitHub 目前的原始碼安裝，並以 `--help` 核對 `--segments` 及 `--plan-only`。
+
 ## 安裝
 
 先安裝 Git、Python 3.11、FFmpeg 與 uv，從倉庫根目錄執行：
@@ -30,7 +36,7 @@ Linux、Windows 與 Intel Mac 可參考 [README 的 Voicebox 平台及安裝說�
 
 ```sh
 .runtime/qwen/bin/magicreels-qwen \
-  --text '這次測試，會比較聲音相似度。' \
+  --text '這次測試，會比較聲音相似度。接著確認段內停頓，讓前後語氣自然接續。' \
   --reference work/my-reel/reference.wav \
   --reference-text work/my-reel/reference.txt \
   --out work/my-reel/preview-v1
@@ -38,17 +44,27 @@ Linux、Windows 與 Intel Mac 可參考 [README 的 Voicebox 平台及安裝說�
 
 若已有完整的本機模型資料夾，可加入 `--model /path/to/Qwen3-TTS-12Hz-1.7B-Base-bf16`，直接使用該資料夾。請核對來源與 revision；自訂路徑的紀錄保存 config 雜湊，`model_revision` 留空以免誤標。缺少 tokenizer encoder 會停止，不會改用其他聲音引擎。
 
-先聽人名、英文名稱、數字、聲調、停頓與前後語氣。短段通過後，使用正常定稿：
+先試聽包含多個句子的完整語意段落，檢查人名、英文、數字、聲調及前後語氣。準備 `segments.json`，用正常文字字串陣列明列生成段落，依序組合須與定稿相同（允許空白及換行差異）。短段通過後，完整稿先加 `--plan-only` 檢查段落計畫，使用新目錄正式生成：
 
 ```sh
 .runtime/qwen/bin/magicreels-qwen \
   --script work/my-reel/script.txt \
+  --segments work/my-reel/segments.json \
   --reference work/my-reel/reference.wav \
   --reference-text work/my-reel/reference.txt \
   --out work/my-reel/voice-v1
 ```
 
-每行或句號／問號／驚嘆號為一段，最多 120 字；優先保留完整語意句。影片目前每段對應一筆兩行字幕，較長句段需再依實際音檔對時、分割字幕。每次使用新的輸出目錄，保留已核准音檔。
+每個計畫項目是一個完整語意段落；標點、換行及字幕行不會自動拆分配音。`--text` 的全部文字視為單段。正常段及替換後合成段各最多 120 字，超長、漏字、改字或順序不同會停止。例：
+
+```json
+[
+  "先交代事情。再說明原因，保持語氣接續。",
+  "接著說明影響。最後回到開頭的問題。"
+]
+```
+
+先加 `--plan-only --out work/my-reel/plan-v1`，查看輸出的 `generation-plan.json`，再移除 `--plan-only` 並使用新的 `voice-v1` 目錄。核對兩份計畫雜湊相同；字幕切段於音檔完成後處理。不得為了兩行字幕而逐句重新生成。現有渲染器每個 part 對應一筆字幕，長配音段可依 Whisper 對時切成保留 PCM 的字幕片段，另存映射並保留原始生成清單；詳見製作指南。
 
 ## 讀音修訂與正常稿分離
 
@@ -68,7 +84,7 @@ Linux、Windows 與 Intel Mac 可參考 [README 的 Voicebox 平台及安裝說�
 
 ## 音檔與驗收
 
-輸出包含正常稿、合成稿、替換紀錄、參考音檔及逐字稿、原始 FLOAT WAV、各段 24 kHz／24-bit WAV、完整 WAV／MP3 與 `audio-map.json`。
+輸出包含 `generation-plan.json`（段落全文、數量及原稿雜湊）、正常稿、合成稿、替換紀錄、參考音檔及逐字稿、原始 FLOAT WAV、各段 24 kHz／24-bit WAV、完整 WAV／MP3 與 `audio-map.json`。
 
 - 每段以固定 seed `42`、中文語言設定與最多 `640` 個音訊 token 生成；上游亦會依文字長度限制生成，尾句完整度須試聽確認。
 - 使用固定增益，以 -23.1 LUFS 為目標、-1.5 dBFS 為樣本峰值上限；實際響度可能因峰值限制而較低。首尾各 5 ms 淡化，尾端加入 150 ms 靜音，語速保持原樣。

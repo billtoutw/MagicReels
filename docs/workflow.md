@@ -4,11 +4,11 @@
 
 將 `examples/first-reel/` 複製到 `work/my-reel/`，保留目錄結構，替換文章、腳本、聲音與分鏡。所有 `project.json` 內的檔案路徑，以該 JSON 所在目錄為起點；音訊清單內路徑則以音訊清單所在目錄為起點。使用 UTF-8。
 
-每支影片聚焦一個問題，先確認來源與口白。`script.txt` 每行一個短句；每句建議 10–20 個中文字，足以在兩行字幕內呈現。語意較長時可拆成連續句段；正式名稱保持原字，按語意分行。
+每支影片聚焦一個問題，先確認來源與口白。`script.txt` 保存正常定稿，`segments.json` 另列完整語意段落；每段可含多個句子，合成前用 `--plan-only` 檢查。字幕文字之後按實際音訊分成兩行內的短片段；正式名稱保持原字，不以字幕行長決定配音切點。
 
 ## 2. 生成並確認聲音
 
-按 [Qwen3-TTS 文件](qwen3-tts.md) 使用 1.7B Base 與 MLX Audio，在 Apple Silicon Mac 本機搭配參考錄音及逐字稿生成聲音。先生成含人名、數字或問題詞的短段；中英夾雜比對連讀、重音及前後語氣。短段確認後產生完整旁白。`audio-map.json` 保存每句的實際時間、正常稿與音檔雜湊。此流程直接使用 MLX Audio，無須安裝 Voicebox App。
+按 [VoiceStudio 文件](voicestudio.md) 使用本機後端、Qwen3-TTS 1.7B Base、參考錄音及逐字稿生成聲音。先生成含人名、數字或問題詞的短段，試聽連讀、重音及前後語氣。短段確認後產生完整旁白。`generation-plan.json` 保存生成段落全文與數量，`audio-map.json` 保存各生成段的實際時間、正常稿、音檔與計畫雜湊。
 
 聽完完整音檔後，由製作者執行：
 
@@ -26,7 +26,7 @@ python -m pip install -e '.[align]'
 magicreels transcribe work/my-reel/voice/narration.wav --out work/my-reel/asr-v1
 ```
 
-首次會下載 Whisper small 模型。結果供試聽與時間校正使用；字幕沿用正常稿。目前預設每個 TTS 短句對應一筆字幕，以實際分段邊界對時。整段真人錄音可先依句分割，再使用 `magicreels.tts.assemble` 建立相同格式，或由編輯建立並核對時間表。
+首次會下載 Whisper small 模型。結果供試聽與時間校正使用；字幕沿用正常稿。生成段落可以長於一筆字幕。現有渲染器仍要求每個音訊 part 對應一筆字幕；先依 Whisper 與試聽確認較細邊界，將已核准的單聲道 PCM 按邊界連續切片，在新目錄建立 `raw/`，以 `magicreels.tts.assemble(..., preserve_pcm=True)` 重建供字幕使用的映射。核對切片重組的整軌 PCM 與核准音訊完全一致，保留原始生成映射及樣本範圍。若 WAV 檔案雜湊改變，核對保留證據並依實際試聽決定重新保存核准紀錄。禁止為了字幕版面把長段逐句重生。整段真人錄音可先依句分割，再使用 `magicreels.tts.assemble` 建立相同格式，或由編輯建立並核對時間表。
 
 <a id="voicebox-handoff"></a>
 
@@ -104,7 +104,7 @@ magicreels render work/my-reel/project.json --out work/my-reel/film-v1
 
 全片解碼、尺寸、影格率、影音尾差與來源唯一性由程式檢查。開啟 `preview.jpg` 檢查 390 px 寬版面，再完整觀看影片，特別檢查最長字幕、切點、片頭和片尾。
 
-若文字超寬，程式會明確報錯。保留正式名稱，以語意換行處理；超過兩行的長句先回到腳本與配音分段調整。
+若文字超寬，程式會明確報錯。保留正式名稱，以語意換行處理；超過兩行時依實際音檔建立更細的字幕切片與映射，保留核准 PCM 及原始生成段落。
 
 ## 5. 配樂與混音
 

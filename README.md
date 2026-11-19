@@ -11,8 +11,8 @@
 https://github.com/billtoutw/MagicReels
 
 請先閱讀 README.md、AGENTS.md、docs/workflow.md 與 docs/qwen3-tts.md，
-依照專案規則準備環境、腳本、Qwen3-TTS 配音、素材、字幕與配樂。
-配音使用 Qwen3-TTS 1.7B Base，透過 MLX Audio 在 Apple Silicon Mac 本機生成，
+依照專案規則準備環境、腳本、VoiceStudio 配音、素材、字幕與配樂。
+配音透過 VoiceStudio 的本機後端，在 Apple Silicon Mac 執行 Qwen3-TTS 1.7B Base，
 搭配我的參考錄音與逐字稿複製聲線。
 請先確認我的作業系統與硬體；其他桌面平台可參考下方 Voicebox 路徑，
 先生成旁白，再依製作指南整理音訊映射及字幕。
@@ -21,15 +21,15 @@ https://github.com/billtoutw/MagicReels
 最後交付 MP4、繁中字幕、來源清單與驗證紀錄。
 ```
 
-AI 使用的環境需能下載專案並執行 Python／FFmpeg。v0.4 內建的 MLX 配音入口適用於 Apple Silicon Mac，準備 3–30 秒乾淨錄音與相符逐字稿；Pexels 金鑰按需要設在本機環境變數。AI 會依文件處理安裝與缺少的輸入。首次使用 Qwen3-TTS 需要下載數 GB 模型；其他桌面平台可採下方 Voicebox 路徑，再接回 MagicReels 的外部音訊流程。
+AI 使用的環境需能下載專案並執行 Python／FFmpeg。[VoiceStudio 本機配音入口](docs/voicestudio.md)適用於 Apple Silicon Mac，準備 3–30 秒乾淨錄音與相符逐字稿。Pexels 金鑰按需要設在本機環境變數。首次使用 Qwen3-TTS 需要下載數 GB 模型。其他桌面平台可採下方 Voicebox 路徑，再接回 MagicReels 的外部音訊流程。
 
 想先體驗成品，可以補一句「請先跑內附的完整示範」；示範已附旁白，能先確認剪輯與字幕環境。[代理工作規則](AGENTS.md)與[Qwen 配音及讀音修訂](docs/qwen3-tts.md)也可直接交給 AI 參考。
 
 ## 專案與示範
 
-MagicReels 是一套可重現、保留人工審核的製作工具包。從文章改寫提示詞開始，以 **Qwen3-TTS 1.7B Base（BF16）透過 MLX Audio 在 Mac 本機生成配音，搭配使用者的參考錄音複製聲線**，編排素材與圖卡，輸出 1080 × 1920 影片及繁中字幕，再匯入配樂完成混音。
+MagicReels 是一套可重現、保留人工審核的製作工具包。從文章改寫提示詞開始，以 **VoiceStudio 搭配 Qwen3-TTS 1.7B Base（BF16）在 Mac 本機複製聲線並生成配音**，編排素材與圖卡，輸出 1080 × 1920 影片及繁中字幕，再匯入配樂完成混音。
 
-本專案已驗證的配音流程直接呼叫 MLX Audio，入口為 `magicreels-qwen`，無須安裝 Voicebox App。其他桌面平台可參考下方 Voicebox 的可選流程。
+配音入口為 [`magicreels-voicestudio`](docs/voicestudio.md)。需要重現既有配音時可明確使用 [`magicreels-qwen`](docs/qwen3-tts.md)。其他桌面平台可參考下方 Voicebox 的外部音訊流程。
 
 v0.4.0 · Python 3.11+ · FFmpeg / libass · 本機 CLI
 
@@ -64,7 +64,7 @@ magicreels mix work/demo-film-v1/film.mp4 \
 | 步驟 | 操作與產出 | 人工確認 |
 | --- | --- | --- |
 | 1. 文章 → 腳本 | 將 [文章改寫提示詞](prompts/article-to-script.md) 與文章交給你使用的 LLM | 核對事實、正式名稱、主線與口白 |
-| 2. 腳本 → 聲音 | 按 [Qwen3-TTS 安裝與操作](docs/qwen3-tts.md) 生成分段音檔與 `audio-map.json` | 先聽短段，再聽完整音軌 |
+| 2. 腳本 → 聲音 | 按 [VoiceStudio 安裝與操作](docs/voicestudio.md) 生成分段音檔與 `audio-map.json` | 先聽短段，再聽完整音軌 |
 | 3. 聲音 → 分鏡 | 複製示範的 `project.json`；依音訊段落安排圖卡、照片或影片 | 核對素材身分、來源與字幕斷行 |
 | 4. 合成 | `magicreels validate`，再執行 `magicreels render` | 手機尺寸檢查與完整觀看 |
 | 5. 音樂 → 完成 | 用 [配樂提示詞](prompts/music.md) 在 ElevenLabs 產生並下載音樂，執行 `magicreels mix` | 全片試聽人聲清晰度 |
@@ -86,7 +86,7 @@ magicreels fetch 123456 --out work/asset-v1  # 將 123456 換成搜尋結果的 
 
 ### 配音與字幕
 
-Qwen3-TTS 採獨立 Python 3.11 環境，固定 MLX Audio 0.4.1 與 1.7B Base BF16 模型版本。參考聲音及精確逐字稿由使用者提供，正常稿與合成稿分開保存。每個句段的實際音檔邊界形成字幕時間表。需要字詞層級檢查時，可安裝 `python -m pip install -e '.[align]'` 並執行 `magicreels transcribe` 取得 Whisper 逐字時間；依試聽結果修正時間表。
+VoiceStudio 採獨立 Python 3.11 環境，使用 MLX Audio 0.5.0 與固定的 Qwen3-TTS 1.7B Base BF16 模型。參考聲音及精確逐字稿由使用者提供，正常稿與合成稿分開保存。`--script` 搭配 `--segments`，先以 `--plan-only` 核對語意段落。每段可含多個句子，完整送入模型。字幕於配音完成後按實際音訊另外對時，現有渲染器的較細 part 映射可由保留 PCM 的切片建立。需要字詞層級檢查時，可安裝 `python -m pip install -e '.[align]'` 並執行 `magicreels transcribe` 取得 Whisper 逐字時間，再依試聽結果修正時間表。
 
 中英夾雜先檢查英文名稱的連讀、重音與前後語氣。Qwen 可在合成稿使用經試聽的同音字或數字讀法，字幕保留正常文字；規則見 [Qwen 配音指南](docs/qwen3-tts.md)。可沿用固定核准的聲線／風格參考，新內容由本機生成，再逐段試聽。舊 [BreezyVoice 入口](docs/breezyvoice.md)與[注音方法](docs/breezyvoice-code-switching.md)保留供歷史專案重現。
 
